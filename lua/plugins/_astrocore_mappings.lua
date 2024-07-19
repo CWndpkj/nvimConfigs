@@ -7,7 +7,8 @@ return {
     if not opts.mappings then opts.mappings = require("astrocore").empty_map_table() end
     local maps = opts.mappings
     if maps then
-      maps.n["<Leader>n"] = false
+      --TODO: we can make Leader+n more useful
+      maps.n["<Leader>n"] = { "No" }
 
       maps.n.n = { utils.better_search "n", desc = "Next search" }
       maps.n.N = { utils.better_search "N", desc = "Previous search" }
@@ -29,8 +30,9 @@ return {
       -- close search highlight
       maps.n["<Leader>nh"] = { ":nohlsearch<CR>", desc = "Close search highlight", silent = true }
 
-      maps.n["H"] = { "^", desc = "Go to start without blank" }
-      maps.n["L"] = { "$", desc = "Go to end without blank" }
+      -- @changes this has been changed to buffer navigation
+      -- maps.n["H"] = { "^", desc = "Go to start without blank" }
+      -- maps.n["L"] = { "$", desc = "Go to end without blank" }
 
       maps.v["<"] = { "<gv", desc = "Unindent line" }
       maps.v[">"] = { ">gv", desc = "Indent line" }
