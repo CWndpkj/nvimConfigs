@@ -1,4 +1,4 @@
---WARNING: now rust-analyzer is can't use in neovim, because this issue
+--WARNING: now rust-analyzer can't use in neovim, because this issue
 -- https://github.com/rust-lang/rust-analyzer/issues/17289
 -- https://github.com/williamboman/mason.nvim/issues/1741
 local utils = require "astrocore"
