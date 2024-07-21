@@ -56,15 +56,17 @@ now,this config supports development in `TypeScript`,`Python`,`Go`,`Rust` and `m
 ### Recommend install
 
 ```shell
-brew install fzf
-brew install luarocks
-brew install lazygit
-brew install ripgrep
+fzf
+luarocks
+lazygit
+ripgrep
 npm install -g tree-sitter-cli
-brew install gdu
-brew install bottom
-brew install protobuf
+gdu
+bottom
+protobuf
 ```
+#### Note
+for linux, a 'trash' command is needed, use package manager to install package "trash-cli"
 
 ### Make a backup of your current nvim and shared folder
 

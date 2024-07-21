@@ -16,20 +16,29 @@ local function trash(state)
 
   if node.type == "message" then return end
   local _, name = utils.split_path(node.path)
+
+  local get_os_name = require("utils").get_os_name
   local msg = string.format("Are you sure you want to trash '%s'?", name)
   inputs.confirm(msg, function(confirmed)
     if not confirmed then return end
-    vim.api.nvim_command("silent !trash -F " .. node.path)
     local buf_id = get_buffer_by_name(node.path)
     if buf_id and buf_id ~= 0 then require("astrocore.buffer").close(buf_id, true) end
     cmds.refresh(state)
+    if get_os_name() == "linux" then
+      vim.api.nvim_command("silent !trash -f " .. node.path)
+    elseif get_os_name() == "macos" then
+      vim.api.nvim_command("silent !trash -F " .. node.path)
+    elseif get_os_name() == "windows" then
+      --- TODO:for windows ,we need a 'trash' command rather than delete it derectly
+      vim.api.nvim_command("silent !Remove-Item -Path " .. node.path)
+    end
   end)
 end
 
 local function trash_visual(state, selected_nodes)
   local inputs = require "neo-tree.ui.inputs"
   local cmds = require "neo-tree.sources.manager"
-
+  local get_os_name = require("utils").get_os_name
   local paths_to_trash = {}
   for _, node in ipairs(selected_nodes) do
     if node.type ~= "message" then table.insert(paths_to_trash, node.path) end
@@ -38,11 +47,18 @@ local function trash_visual(state, selected_nodes)
   inputs.confirm(msg, function(confirmed)
     if not confirmed then return end
     for _, path in ipairs(paths_to_trash) do
-      vim.api.nvim_command("silent !trash -F " .. path)
       local buf_id = get_buffer_by_name(path)
       if buf_id and buf_id ~= 0 then require("astrocore.buffer").close(buf_id, true) end
+      cmds.refresh(state)
+      if get_os_name() == "linux" then
+        vim.api.nvim_command("silent !trash -f -d " .. path)
+      elseif get_os_name() == "macos" then
+        vim.api.nvim_command("silent !trash -F " .. path)
+      elseif get_os_name() == "windows" then
+        --- TODO:for windows ,we need a 'trash' command rather than delete it derectly
+        vim.api.nvim_command("silent !Remove-Item -Path -Recurse" .. path)
+      end
     end
-    cmds.refresh(state)
   end)
 end
 

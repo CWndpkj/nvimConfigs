@@ -286,4 +286,16 @@ function M.toggle_tte()
   end
 end
 
+function M.get_os_name()
+  local sysname = vim.loop.os_uname().sysname
+  if sysname == "Linux" then
+    return "linux"
+  elseif sysname == "Windows_NT" then
+    return "windows"
+  elseif sysname == "Darwin" then
+    return "macos"
+  else
+    return "unknown"
+  end
+end
 return M
