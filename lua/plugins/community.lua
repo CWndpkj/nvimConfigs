@@ -1,7 +1,7 @@
 local system = vim.loop.os_uname().sysname
 
 if vim.g.neovide then
-  vim.o.guifont = "JetBrainsMono Nerd Font:h16"
+  vim.o.guifont = "JetBrainsMono Nerd Font:h12"
   vim.g.neovide_no_idle = true
   vim.g.neovide_confirm_quit = true
   vim.g.neovide_fullscreen = false

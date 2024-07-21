@@ -23,8 +23,9 @@ return {
             end,
             desc = "Pick to close",
           },
+
           --<Leader>c
-          ["<Leader>c"] = {"Cmake tasks"},
+          ["<Leader>c"] = { "", desc = "Cmake tasks" },
           ["<Leader>cr"] = {
             function()
               local cmake_tools = require "cmake-tools"
@@ -32,8 +33,10 @@ return {
             end,
             desc = "Cmake run",
           },
+          ["<Leader>cb"] = { "<cmd>CMakeBuild<cr>", desc = "Cmake build" },
           ["<Leader>ct"] = { "<cmd>CMakeRunTest<cr>", desc = "Run test" },
           ["<Leader>cd"] = { "<cmd>CMakeDebug<cr>", desc = "Start Debug" },
+
           ["H"] = { "<cmd>bprevious<cr>", desc = "Previous buffer" },
           ["L"] = { "<cmd>bnext<cr>", desc = "Next buffer" },
           ["K"] = { function() vim.lsp.buf.hover() end, desc = "Lsp show hover info" },

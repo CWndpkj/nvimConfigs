@@ -8,7 +8,7 @@ return {
     local maps = opts.mappings
     if maps then
       --TODO: we can make Leader+n more useful
-      maps.n["<Leader>n"] = { "No" }
+      maps.n["<Leader>n"] = { "", desc = "No" }
 
       maps.n.n = { utils.better_search "n", desc = "Next search" }
       maps.n.N = { utils.better_search "N", desc = "Previous search" }
