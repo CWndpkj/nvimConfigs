@@ -1,5 +1,4 @@
 local utils = require "astrocore"
-local prefix_dap = "<Leader>fd"
 local prefix_debug = "<Leader>d"
 ---@type LazySpec
 return {
@@ -9,29 +8,6 @@ return {
     opts = {
       mappings = {
         n = {
-          [prefix_dap] = {
-            desc = "Find dap",
-          },
-          [prefix_dap .. "c"] = {
-            function() require("telescope").extensions.dap.commands() end,
-            desc = "Telescope DAP commands",
-          },
-          [prefix_dap .. "f"] = {
-            function() require("telescope").extensions.dap.frames() end,
-            desc = "Telescope DAP frames",
-          },
-          [prefix_dap .. "g"] = {
-            function() require("telescope").extensions.dap.configurations() end,
-            desc = "Telescope DAP configurations",
-          },
-          [prefix_dap .. "l"] = {
-            function() require("telescope").extensions.dap.list_breakpoints() end,
-            desc = "Telescope DAP list breakpoints",
-          },
-          [prefix_dap .. "v"] = {
-            function() require("telescope").extensions.dap.variables() end,
-            desc = "Telescope DAP variables",
-          },
           [prefix_debug .. "j"] = {
             function() require("dap").down() end,
             desc = "Down Strace",
@@ -121,6 +97,10 @@ return {
       commented = true,
       enabled = true,
       enabled_commands = true,
+      only_first_definition = true,
+      virt_text_pos = "eol",
+      highlight_changed_variables = false,
+      all_frames = false,
     },
   },
   {
@@ -132,12 +112,5 @@ return {
       end
       dapui.setup(opts)
     end,
-  },
-  {
-    "nvim-telescope/telescope.nvim",
-    dependencies = {
-      "nvim-telescope/telescope-dap.nvim",
-    },
-    opts = function() require("telescope").load_extension "dap" end,
   },
 }
