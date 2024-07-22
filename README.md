@@ -56,14 +56,16 @@ now,this config supports development in `TypeScript`,`Python`,`Go`,`Rust` and `m
 ### Recommend install
 
 ```shell
-fzf
-luarocks
-lazygit
-ripgrep
+yay fzf
+yay luarocks
+yay lazygit
+yay ripgrep
 npm install -g tree-sitter-cli
-gdu
-bottom
-protobuf
+yay gdu
+yay bottom
+yay protobuf
+yay clazy
+yay cmake-format
 ```
 #### Note
 for linux, a 'trash' command is needed, use package manager to install package "trash-cli"

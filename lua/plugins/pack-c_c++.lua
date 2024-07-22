@@ -14,17 +14,36 @@ return {
   {
     "jay-babu/mason-null-ls.nvim",
     optional = true,
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+      "williamboman/mason.nvim",
+      "nvimtools/none-ls.nvim",
+    },
     opts = function(_, opts)
-      opts.ensure_installed = utils.list_insert_unique(opts.ensure_installed, { "clang-format" })
+      opts.ensure_installed =
+        utils.list_insert_unique(opts.ensure_installed, { "clang-format", "clazy-standalone", "cmake-format", "cmake-lint" })
     end,
+  },
+  {
+    "nvimtools/none-ls.nvim",
+    config = function() require("null-ls").setup(
+      {
+        sources = {
+          require("null-ls").builtins.formatting.clang_format,
+          require("null-ls").builtins.diagnostics.clazy,
+          require("null-ls").builtins.formatting.cmake_format,
+          require("null-ls").builtins.diagnostics.cmake_lint,
+        },
+      }
+    ) end,
+    requires = { "nvim-lua/plenary.nvim" },
   },
   {
     "jay-babu/mason-nvim-dap.nvim",
     optional = true,
     opts = function(_, opts)
       -- dap
-      opts.ensure_installed =
-        utils.list_insert_unique(opts.ensure_installed, { "codelldb", "cmake-format", "cmake-lint" })
+      opts.ensure_installed = utils.list_insert_unique(opts.ensure_installed, { "codelldb" })
     end,
   },
   {
@@ -41,9 +60,9 @@ return {
       cmake_command = "cmake", -- this is used to specify cmake command path
       ctest_command = "ctest", -- this is used to specify ctest command path
       cmake_use_preset = true,
-      cmake_regenerate_on_save = true, -- auto generate when save CMakeLists.txt
-      cmake_generate_options = { "-DCMAKE_EXPORT_COMPILE_COMMANDS=1","-G Ninja" }, -- this will be passed when invoke `CMakeGenerate`
-      cmake_build_options = {"-j10"}, -- this will be passed when invoke `CMakeBuild`
+      cmake_regenerate_on_save = false, -- auto generate when save CMakeLists.txt
+      cmake_generate_options = { "-DCMAKE_EXPORT_COMPILE_COMMANDS=1", "-G Ninja" }, -- this will be passed when invoke `CMakeGenerate`
+      cmake_build_options = { "-j10" }, -- this will be passed when invoke `CMakeBuild`
       -- support macro expansion:
       --       ${kit}
       --       ${kitGenerator}
