@@ -298,4 +298,22 @@ function M.get_os_name()
     return "unknown"
   end
 end
+
+function M.detect_project_type()
+  local path = vim.fn.getcwd()
+  local cmake_tools = require "cmake-tools"
+  -- TODO: We need to add more kinds of projects here
+  if cmake_tools.is_cmake_project() then return "C/C++" end
+  if vim.fn.filereadable(path .. "/Cargo.toml") then
+    return "Rust"
+  elseif vim.fn.isdirectory(path .. "/node_modules") or vim.fn.filereadable(path .. "/package.json") then
+    return "Frontend"
+  elseif vim.fn.filereadable(path .. "/requirements.txt") or vim.fn.glob(path .. "/*.py") ~= "" then
+    return "Python"
+  elseif vim.fn.filereadable(path .. "/CMakeLists.txt") == 1 or vim.fn.glob(path .. "/*.cpp") ~= "" then
+    return "C/C++"
+  else
+    return "Unknown"
+  end
+end
 return M

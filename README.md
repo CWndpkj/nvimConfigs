@@ -185,29 +185,43 @@ brew install lazydocker
 
 ## General Mappings
 
-| Action                      | Mappings            |
-| --------------------------- | ------------------- |
-| Leader key                  | `Space`             |
-| Resize up                   | `Ctrl + Up`         |
-| Resize Down                 | `Ctrl + Down`       |
-| Resize Left                 | `Ctrl + Left`       |
-| Resize Right                | `Ctrl + Right`      |
-| Up Window                   | `Ctrl + k`          |
-| Down Window                 | `Ctrl + j`          |
-| Left Window                 | `Ctrl + h`          |
-| Right Window                | `Ctrl + l`          |
-| Force Write                 | `Ctrl + s`          |
-| Force Quit                  | `Ctrl + q`          |
-| New File                    | `Leader + n`        |
-| Close Buffer                | `Leader + c`        |
-| Next Tab (real vim tab)     | `]t`                |
-| Previous Tab (real vim tab) | `[t`                |
-| Comment                     | `Leader + /`        |
-| Horizontal Split            | `\`                 |
-| Vertical Split              | <code>&#124;</code> |
+| Action                      | Mappings            | Mode |
+| --------------------------- | ------------------- |------|
+| Leader key                  | `Space`               |   n  |
+| Resize up                   | `Ctrl + Up`           |  n  |
+| Resize Down                 | `Ctrl + Down`         |  n  |
+| Resize Left                 | `Ctrl + Left`         |  n  |
+| Resize Right                | `Ctrl + Right`        |  n  |
+| Up Window                   | `Ctrl + k`            |  n  |
+| Down Window                 | `Ctrl + j`             |  n  |
+| Left Window                 | `Ctrl + h`          |  n  |
+| Right Window                | `Ctrl + l`          |  n  |
+| Force Write                 | `Ctrl + s`          |  n  |
+| Force Quit                  | `Ctrl + q`          |  n  |
+| New File                    | `Leader + n`        |  n  |
+| Close Buffer                | `Leader + c`        |  n  |
+| Next Tab (real vim tab)     | `]t`                |  n  |
+| Previous Tab (real vim tab) | `[t`                |  n  |
+| Comment                     | `Control + /`        |  n  |
+| Horizontal Split            | `\`                 |  n  |
+| Vertical Split              | <code>&#124;</code> |  n  |
+| Open task menu              | `<Leader>c`          |  n  |
+
+Copilot Mappings
+
+| Action                      | Mappings            | Mode |
+|-----------------------------|---------------------|------|
+| 
+
 
 ## NOTE
 
 ### _vim.lsp.buf.hover()_ `KK` jump into signature help float window
 
 > Displays hover information about the symbol under the cursor in a floating window. Calling the function twice will jump into the floating window.
+
+## Project workspace setup
+<Leader>c as menu,try to open a project and see what can be exec in current workspace<br/>
+To use neovim to develop c/c++,we use 'cmake-tools' to run cmake tasks<br/>
+The same time,we use 'overseer' to run other project,like c/c++ project base on makefile,Rust proejct ,Python project,Frontend project,etc
+

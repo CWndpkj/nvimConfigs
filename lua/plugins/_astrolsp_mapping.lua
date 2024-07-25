@@ -1,5 +1,6 @@
 return {
   "AstroNvim/astrolsp",
+
   ---@param opts AstroLSPOpts
   opts = function(_, opts)
     if not opts.mappings then opts.mappings = require("astrocore").empty_map_table() end
@@ -11,7 +12,6 @@ return {
         cond = "textDocument/signatureHelp",
       }
     end
-
     opts.mappings = maps
   end,
 }
