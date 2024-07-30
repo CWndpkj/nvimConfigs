@@ -11,6 +11,7 @@ return {
     if maps then
       -- Project Tasks mappings
       if project_type == "C/C++" then
+        maps.n["<Leader>ns"] = { "<Cmd>ClangdSwitchSourceHeader<CR>", desc = "Switch between source and header" }
         maps.n["<Leader>c"] = { "", desc = "Cmake tasks" }
         maps.n["<Leader>cr"] = {
           function()
@@ -19,10 +20,15 @@ return {
           end,
           desc = "Run",
         }
+        maps.n["<Leader>cg"] = {
+          "<Cmd>CMakeGenerate<CR>",
+          desc = "Generate",
+        }
         maps.n["<Leader>cb"] = { "<Cmd>CMakeBuild<CR>", desc = "Build" }
         maps.n["<Leader>ct"] = { "<Cmd>CMakeRunTest<CR>", desc = "Test" }
         maps.n["<Leader>cd"] = { "<Cmd>CMakeDebug<CR>", desc = "Debug" }
-        maps.n["<F5>"] ={"<cmd>CMakeDebug<cr>",desc="Debug"}
+        maps.n["<LEader>cc"] = { "<Cmd>CMakeClean<CR>", desc = "Clean" }
+        maps.n["<F5>"] = { "<cmd>CMakeDebug<cr>", desc = "Debug" }
       elseif project_type == "Rust" or project_type == "Python" or project_type == "Frontend" then
         if project_type == "Rust" then
           maps.n["<Leader>c"] = { "", desc = "Cargo tasks" }
@@ -44,9 +50,9 @@ return {
           function() overseer.run_template { tags = { overseer.TAG.TEST } } end,
           desc = "Test",
         }
-        maps.n["<Leader>cd"] = {
-          function() overseer.run_template { tags = { overseer.TAG.DEBUG } } end,
-          desc = "Debug",
+        maps.n["<Leader>cc"] = {
+          function() overseer.run_template { tags = { overseer.TAG.CLEAN } } end,
+          desc = "Clean",
         }
       end
 
@@ -58,10 +64,12 @@ return {
       maps.n["<Leader>n"] = { "", desc = "Highlights" }
       -- close search highlight
       maps.n["<Leader>nh"] = { ":nohlsearch<CR>", desc = "Close search highlight", silent = true }
+      maps.n["<Leader>nc"] = {"<Cmd>CopilotChatToggle<CR>",desc = "Copilot Chat Toggle"}
 
-      -- <Leader>b buffer navigation
-      maps.n["b"] = { "", desc = "Buffer" }
-      maps.n["bd"] = { "<Cmd>BufferClose<CR>", desc = "Close Current Buffer" }
+      maps.n["<Leader>bd"] = {
+        function() require("astrocore.buffer").close(0) end,
+        desc = "Close Current Buffer",
+      }
 
       maps.n.n = { utils.better_search "n", desc = "Next search" }
       maps.n.N = { utils.better_search "N", desc = "Previous search" }

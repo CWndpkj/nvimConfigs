@@ -221,7 +221,7 @@ Copilot Mappings
 > Displays hover information about the symbol under the cursor in a floating window. Calling the function twice will jump into the floating window.
 
 ## Project workspace setup
-<Leader>c as menu,try to open a project and see what can be exec in current workspace<br/>
-To use neovim to develop c/c++,we use 'cmake-tools' to run cmake tasks<br/>
+We use`<Leader>c` as menu,try to open a project and see what can be exec in current workspace.
+To use neovim to develop c/c++ cmake base project,we use 'cmake-tools' to run cmake tasks.
 The same time,we use 'overseer' to run other project,like c/c++ project base on makefile,Rust proejct ,Python project,Frontend project,etc
 

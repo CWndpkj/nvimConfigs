@@ -20,14 +20,16 @@ return {
       "nvimtools/none-ls.nvim",
     },
     opts = function(_, opts)
-      opts.ensure_installed =
-        utils.list_insert_unique(opts.ensure_installed, { "clang-format", "clazy-standalone", "cmake-format", "cmake-lint" })
+      opts.ensure_installed = utils.list_insert_unique(
+        opts.ensure_installed,
+        { "clang-format", "clazy-standalone", "cmake-format", "cmake-lint" }
+      )
     end,
   },
   {
     "nvimtools/none-ls.nvim",
-    config = function() require("null-ls").setup(
-      {
+    config = function()
+      require("null-ls").setup {
         sources = {
           require("null-ls").builtins.formatting.clang_format,
           require("null-ls").builtins.diagnostics.clazy,
@@ -35,7 +37,7 @@ return {
           require("null-ls").builtins.diagnostics.cmake_lint,
         },
       }
-    ) end,
+    end,
     requires = { "nvim-lua/plenary.nvim" },
   },
   {
