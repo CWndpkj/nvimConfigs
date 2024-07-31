@@ -446,13 +446,18 @@ function M.detect_project_type()
   -- TODO: We need to add more kinds of projects here
   if cmake_tools.is_cmake_project() then
     return "C/C++"
-  elseif vim.fn.filereadable(path .. "/Cargo.toml") then
+  elseif vim.fn.filereadable(path .. "/Cargo.toml") == 1 then
     return "Rust"
-  elseif vim.fn.isdirectory(path .. "/node_modules") or vim.fn.filereadable(path .. "/package.json") then
+  elseif vim.fn.isdirectory(path .. "/node_modules") == 1 or vim.fn.filereadable(path .. "/package.json") == 1 then
     return "Frontend"
-  elseif vim.fn.filereadable(path .. "/requirements.txt") or vim.fn.glob(path .. "/*.py") ~= "" then
+  elseif vim.fn.filereadable(path .. "/requirements.txt") == 1 or vim.fn.glob(path .. "/*.py") ~= "" then
     return "Python"
-  elseif vim.fn.filereadable(path .. "/CMakeLists.txt") == 1 or vim.fn.glob(path .. "/*.cpp") ~= "" then
+  elseif
+    vim.fn.filereadable(path .. "/CMakeLists.txt") == 1
+    or vim.fn.glob(path .. "/*.cpp") ~= ""
+    or vim.fn.glob(path .. "/*.c") ~= ""
+    or vim.fn.glob(path .. "/*.cc") ~= ""
+  then
     return "C/C++"
   else
     return "Unknown"

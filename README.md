@@ -1,5 +1,36 @@
 # AstroNvimV4 Config
 
+<!--toc:start-->
+- [AstroNvimV4 Config](#astronvimv4-config)
+  - [Support neovim version](#support-neovim-version)
+  - [Features](#features)
+  - [workflow screenshot](#workflow-screenshot)
+  - [other components config](#other-components-config)
+  - [🛠️ Installation](#🛠️-installation)
+    - [The system should supports commands](#the-system-should-supports-commands)
+    - [Recommend install](#recommend-install)
+    - [Note: for rust development](#note-for-rust-development)
+    - [Make a backup of your current nvim and shared folder](#make-a-backup-of-your-current-nvim-and-shared-folder)
+    - [Create a new user repository from this template](#create-a-new-user-repository-from-this-template)
+    - [Clone the repository](#clone-the-repository)
+    - [Start Neovim](#start-neovim)
+  - [Tips](#tips)
+    - [NVcheatsheet](#nvcheatsheet)
+    - [Use Lazygit](#use-lazygit)
+    - [Install unimatrix](#install-unimatrix)
+    - [Install TTE](#install-tte)
+    - [Neovim requirements](#neovim-requirements)
+    - [Markdown Image Paste](#markdown-image-paste)
+    - [Input Auto Switch](#input-auto-switch)
+    - [Support styled-components](#support-styled-components)
+    - [Support for neovide](#support-for-neovide)
+    - [Support Lazydocker](#support-lazydocker)
+  - [General Mappings](#general-mappings)
+  - [NOTE](#note)
+    - [_vim.lsp.buf.hover()_ `KK` jump into signature help float window](#vimlspbufhover-kk-jump-into-signature-help-float-window)
+  - [Project workspace setup](#project-workspace-setup)
+<!--toc:end-->
+
 **NOTE:** This is the latest v4 configuration.
 
 In the course of my daily tasks, I have optimized my workflow by integrating several powerful tools. My terminal of choice is `WezTerm`, which offers a blend of performance and features that cater to my needs. Alongside this, I employ `tmux` to efficiently manage multiple terminal sessions within a single window.
@@ -234,7 +265,11 @@ Copilot Mappings
 
 | Action                      | Mappings            | Mode |
 |-----------------------------|---------------------|------|
-| 
+| Open chat panel             |  `<Leader>nc`       |  n     |
+| Accept inline suggestion    | `<C-.>`             |    n   |
+
+
+For more mappings,see which key prompt or mappings config files
 
 
 ## NOTE
@@ -244,7 +279,7 @@ Copilot Mappings
 > Displays hover information about the symbol under the cursor in a floating window. Calling the function twice will jump into the floating window.
 
 ## Project workspace setup
-We use`<Leader>c` as menu,try to open a project and see what can be exec in current workspace.
-To use neovim to develop c/c++ cmake base project,we use 'cmake-tools' to run cmake tasks.
-The same time,we use 'overseer' to run other project,like c/c++ project base on makefile,Rust proejct ,Python project,Frontend project,etc
+Use`<Leader>c` to open project task menu,and it'll determine the type of current workspace by typical files like node_modules/ for frontend,CMakeLists.txt for c/cpp Cargo.toml for Rust.
+For cmake base c/cpp project,we use 'cmake-tools' to run cmake tasks.
+For other type of project,we use 'overseer' to run tasks,including c/cpp project base on makefile,Rust project ,Python project,Frontend project,etc
 

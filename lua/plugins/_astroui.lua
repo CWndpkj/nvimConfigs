@@ -4,7 +4,7 @@ return {
     "AstroNvim/astroui",
     ---@type AstroUIOpts
     opts = {
-      colorscheme = "gruvbox-baby",
+      colorscheme = "monokai-pro",
       icons = {
         ActiveLSP = "",
         ActiveTS = "",
