@@ -6,12 +6,15 @@ return {
   opts = function(_, opts)
     if not opts.mappings then opts.mappings = require("astrocore").empty_map_table() end
     local project_type = require("utils").detect_project_type()
+    local overseer = require "overseer"
     print("workspace_type", project_type)
     local maps = opts.mappings
     if maps then
       -- Project Tasks mappings
+      maps.n["<Leader>cs"] = { "", desc = "Select Target" }
       if project_type == "C/C++" then
         maps.n["<Leader>ns"] = { "<Cmd>ClangdSwitchSourceHeader<CR>", desc = "Switch between source and header" }
+
         maps.n["<Leader>c"] = { "", desc = "Cmake tasks" }
         maps.n["<Leader>cr"] = {
           function()
@@ -20,40 +23,36 @@ return {
           end,
           desc = "Run",
         }
+        maps.n["<Leader>csr"] = { "<Cmd>CMakeSelectLunchTarget<CR>", "Select Lunch Target" }
         maps.n["<Leader>cg"] = {
           "<Cmd>CMakeGenerate<CR>",
           desc = "Generate",
         }
         maps.n["<Leader>cb"] = { "<Cmd>CMakeBuild<CR>", desc = "Build" }
+        maps.n["<Leader>csb"] = { "<Cmd>CMakeSelectBuildTarget<CR>", desc = "Select Build Target" }
         maps.n["<Leader>ct"] = { "<Cmd>CMakeRunTest<CR>", desc = "Test" }
         maps.n["<Leader>cd"] = { "<Cmd>CMakeDebug<CR>", desc = "Debug" }
         maps.n["<LEader>cc"] = { "<Cmd>CMakeClean<CR>", desc = "Clean" }
-        maps.n["<F5>"] = { "<cmd>CMakeDebug<cr>", desc = "Debug" }
+        maps.n["<F5>"] = { "<cmd>CMakeDebug<cr>", desc = "Start Debug" }
       elseif project_type == "Rust" or project_type == "Python" or project_type == "Frontend" then
         if project_type == "Rust" then
           maps.n["<Leader>c"] = { "", desc = "Cargo tasks" }
+          maps.n["<F5>"] = { "<Cmd>RustLsp! debuggables<CR>", desc = "Start Debug" }
+          maps.n["<Leader>cd"] = { "<CMd>RustLsp! debuggables<CR>", desc = "Debug" }
+          maps.n["<Leader>csd"] = { "<Cmd>RustLsp debuggables<CR>", desc = "Select Debug Target" }
+          maps.n["<Leader>cb"] = {
+            function() overseer.run_template { tags = { overseer.TAG.BUILD } } end,
+            desc = "Build",
+          }
+          maps.n["<Leader>cr"] = { "<Cmd>RustLsp! runnables<CR>", desc = "Run" }
+          maps.n["<Leader>csr"] = { "<Cmd>RustLsp runnables<CR>", desc = "Select Run Target" }
         elseif project_type == "Python" then
           maps.n["<Leader>c"] = { "", desc = "Python tasks" }
+          --TODO: Add python tasks
         elseif project_type == "Frontend" then
           maps.n["<Leader>c"] = { "", desc = "Frontend tasks" }
+          maps.n["<Leader>cr"] = { "<Cmd>OverseerRun", desc = "Run" }
         end
-        local overseer = require "overseer"
-        maps.n["<Leader>cb"] = {
-          function() overseer.run_template { tags = { overseer.TAG.BUILD } } end,
-          desc = "Build",
-        }
-        maps.n["<Leader>cr"] = {
-          function() overseer.run_template { tags = { overseer.TAG.RUN } } end,
-          desc = "Run",
-        }
-        maps.n["<Leader>ct"] = {
-          function() overseer.run_template { tags = { overseer.TAG.TEST } } end,
-          desc = "Test",
-        }
-        maps.n["<Leader>cc"] = {
-          function() overseer.run_template { tags = { overseer.TAG.CLEAN } } end,
-          desc = "Clean",
-        }
       end
 
       -- term mode mappings
@@ -64,7 +63,7 @@ return {
       maps.n["<Leader>n"] = { "", desc = "Highlights" }
       -- close search highlight
       maps.n["<Leader>nh"] = { ":nohlsearch<CR>", desc = "Close search highlight", silent = true }
-      maps.n["<Leader>nc"] = {"<Cmd>CopilotChatToggle<CR>",desc = "Copilot Chat Toggle"}
+      maps.n["<Leader>nc"] = { "<Cmd>CopilotChatToggle<CR>", desc = "Copilot Chat Toggle" }
 
       maps.n["<Leader>bd"] = {
         function() require("astrocore.buffer").close(0) end,
@@ -96,6 +95,8 @@ return {
 
       maps.n["H"] = { "^", desc = "Go to start without blank" }
       maps.n["L"] = { "$", desc = "Go to end without blank" }
+      maps.v["H"] = { "^", desc = "Go to start without blank" }
+      maps.v["L"] = { "$", desc = "Go to end without blank" }
 
       maps.v["<"] = { "<gv", desc = "Unindent line" }
       maps.v[">"] = { ">gv", desc = "Indent line" }
