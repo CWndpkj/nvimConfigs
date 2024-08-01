@@ -11,11 +11,11 @@ return {
     local maps = opts.mappings
     if maps then
       -- Project Tasks mappings
-      maps.n["<Leader>cs"] = { "", desc = "Select Target" }
       if project_type == "C/C++" then
         maps.n["<Leader>ns"] = { "<Cmd>ClangdSwitchSourceHeader<CR>", desc = "Switch between source and header" }
 
         maps.n["<Leader>c"] = { "", desc = "Cmake tasks" }
+        maps.n["<Leader>cs"] = { "", desc = "Select Target" }
         maps.n["<Leader>cr"] = {
           function()
             local cmake_tools = require "cmake-tools"
@@ -23,7 +23,7 @@ return {
           end,
           desc = "Run",
         }
-        maps.n["<Leader>csr"] = { "<Cmd>CMakeSelectLunchTarget<CR>", "Select Lunch Target" }
+        maps.n["<Leader>csr"] = { "<Cmd>CMakeSelectLaunchTarget<CR>", desc = "Select Launch Target" }
         maps.n["<Leader>cg"] = {
           "<Cmd>CMakeGenerate<CR>",
           desc = "Generate",
@@ -37,6 +37,7 @@ return {
       elseif project_type == "Rust" or project_type == "Python" or project_type == "Frontend" then
         if project_type == "Rust" then
           maps.n["<Leader>c"] = { "", desc = "Cargo tasks" }
+          maps.n["<Leader>cs"] = { "", desc = "Select Target" }
           maps.n["<F5>"] = { "<Cmd>RustLsp! debuggables<CR>", desc = "Start Debug" }
           maps.n["<Leader>cd"] = { "<CMd>RustLsp! debuggables<CR>", desc = "Debug" }
           maps.n["<Leader>csd"] = { "<Cmd>RustLsp debuggables<CR>", desc = "Select Debug Target" }
@@ -51,7 +52,7 @@ return {
           --TODO: Add python tasks
         elseif project_type == "Frontend" then
           maps.n["<Leader>c"] = { "", desc = "Frontend tasks" }
-          maps.n["<Leader>cr"] = { "<Cmd>OverseerRun", desc = "Run" }
+          maps.n["<Leader>cr"] = { "<Cmd>OverseerRun<CR>", desc = "Run" }
         end
       end
 
