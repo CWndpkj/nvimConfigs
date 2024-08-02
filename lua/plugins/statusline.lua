@@ -25,16 +25,17 @@ return {
         colors = function(hl)
           local get_hlgroup = require("astroui").get_hlgroup
           -- use helper function to get highlight group properties
-          local comment_fg = get_hlgroup("Comment").fg
+          local comment_fg = get_hlgroup("Comment", { fg = "#ffffff", bg = "#000000", sp = nil }).fg
           hl.git_branch_fg = comment_fg
           hl.git_added = comment_fg
           hl.git_changed = comment_fg
           hl.git_removed = comment_fg
-          hl.blank_bg = get_hlgroup("NonText").fg
-          hl.file_info_bg = get_hlgroup("DiagnosticVirtualTextInfo").bg
-          hl.nav_icon_bg = get_hlgroup("String").fg
+          hl.blank_bg = get_hlgroup("NonText", { fg = "#ffffff", bg = "#000000", sp = nil }).fg
+          print(get_hlgroup("NonText", { fg = "#ffffff", bg = "#000000", sp = nil }).fg)
+          hl.file_info_bg = get_hlgroup("DiagnosticVirtualTextInfo", { fg = "#ffffff", bg = "#000000", sp = nil }).bg
+          hl.nav_icon_bg = get_hlgroup("String", { fg = "#ffffff", bg = "#000000", sp = nil }).fg
           hl.nav_fg = hl.nav_icon_bg
-          hl.folder_icon_bg = get_hlgroup("Error").fg
+          hl.folder_icon_bg = get_hlgroup("Error", { fg = "#ffffff", bg = "#000000", sp = nil }).fg
 
           hl.tab_active_bg = hl.bg
           hl.tab_visible_bg = hl.bg

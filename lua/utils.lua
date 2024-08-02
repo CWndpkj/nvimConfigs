@@ -463,4 +463,5 @@ function M.detect_project_type()
     return "Unknown"
   end
 end
+
 return M
