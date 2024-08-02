@@ -7,7 +7,7 @@ return {
     if not opts.mappings then opts.mappings = require("astrocore").empty_map_table() end
     local project_type = require("utils").detect_project_type()
     local overseer = require "overseer"
-    print("workspace_type", project_type)
+    vim.notify("Workspace Type:<" .. project_type..">",vim.log.levels.INFO )
     local maps = opts.mappings
     if maps then
       -- Project Tasks mappings

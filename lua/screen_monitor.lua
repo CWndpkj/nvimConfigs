@@ -23,9 +23,7 @@ function ScreenMonitor:update_time() self.last_action_time = os.time() end
 function ScreenMonitor:check_idle_time()
   local current_time = os.time()
   local idle_duration = current_time - self.last_action_time
-  -- print(idle_duration, " ..out.. ", self.command_in_progress)
   if idle_duration >= self.timeout_seconds and not self.command_in_progress then
-    -- print(idle_duration, " ..in.. ", self.command_in_progress)
     if self.timeout_callback and type(self.timeout_callback) == "function" then self.timeout_callback() end
   end
 end
