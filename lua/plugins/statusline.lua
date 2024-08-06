@@ -31,7 +31,7 @@ return {
           hl.git_changed = comment_fg
           hl.git_removed = comment_fg
           hl.blank_bg = get_hlgroup("NonText", { fg = "#ffffff", bg = "#000000", sp = nil }).fg
-          hl.file_info_bg = get_hlgroup("DiagnosticVirtualTextInfo", { fg = "#ffffff", bg = "#000000", sp = nil }).bg
+          hl.file_info_bg = get_hlgroup("Nomal", { fg = "#ffffff", bg = "#000000", sp = nil }).bg
           hl.nav_icon_bg = get_hlgroup("String", { fg = "#ffffff", bg = "#000000", sp = nil }).fg
           hl.nav_fg = hl.nav_icon_bg
           hl.folder_icon_bg = get_hlgroup("Error", { fg = "#ffffff", bg = "#000000", sp = nil }).fg

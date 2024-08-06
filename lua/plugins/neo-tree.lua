@@ -1,5 +1,6 @@
 local file_exists = require("utils").file_exists
 local remove_lsp_cwd = require("utils").remove_lsp_cwd
+local remove_cwd = require("utils").remove_cwd
 local get_lsp_root_dir = require("utils").get_lsp_root_dir
 
 local function get_buffer_by_name(buf_name)
@@ -245,15 +246,53 @@ local filetype_mapping = {
 return {
   {
     "nvim-neo-tree/neo-tree.nvim",
+ requires = { 
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+      -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+      {
+        's1n7ax/nvim-window-picker',
+        version = '2.*',
+        config = function()
+            require 'window-picker'.setup({
+                filter_rules = {
+                    include_current_win = false,
+                    autoselect_one = true,
+                    -- filter using buffer options
+                    bo = {
+                        -- if the file type is one of following, the window will be ignored
+                        filetype = { 'neo-tree', "neo-tree-popup", "notify" },
+                        -- if the buffer type is one of following, the window will be ignored
+                        buftype = { 'terminal', "quickfix" },
+                    },
+            },
+        })
+        end,
+      },
+    },
     opts = function(_, opts)
       local neo_tree_events = require "neo-tree.events"
 
       return require("astrocore").extend_tbl(opts, {
-        event_handlers = {
-          {
-            event = neo_tree_events.FILE_OPENED,
-            handler = function() require("neo-tree.command").execute { action = "close" } end,
+        commands = {
+          copy_absolute_path = function(state)
+            local absolute_path = state.tree:get_node():get_id()
+            vim.fn.setreg("+", absolute_path)
+          end,
+          copy_relative_path = function(state)
+            local absolute_path = state.tree:get_node():get_id()
+            local relative_path = remove_cwd(absolute_path)
+            vim.fn.setreg("+", relative_path)
+          end,
+        },
+        window = {
+          mappings = {
+            ["'"] = "copy_absolute_path",
+            ['"'] = "copy_relative_path",
           },
+        },
+        event_handlers = {
           {
             event = neo_tree_events.FILE_ADDED,
             handler = function(path)
@@ -275,10 +314,6 @@ return {
           winbar = false,
         },
         filesystem = {
-          commands = {
-            delete = trash,
-            delete_visual = trash_visual,
-          },
           use_libuv_file_watcher = true,
           bind_to_cwd = false,
           follow_current_file = {
