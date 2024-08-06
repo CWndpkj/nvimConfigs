@@ -16,11 +16,13 @@ return {
       pattern = function(bufnr)
         -- you can't use `nvim_buf_line_count` because this runs on BufReadPre
         local file_oneline = vim.fn.readfile(vim.api.nvim_buf_get_name(bufnr), "", 1)
-        local file_sizes = vim.fn.getfsize(vim.api.nvim_buf_get_name(bufnr))
-        local filetype = vim.filetype.match { buf = bufnr }
-        if #file_oneline[1] > 500 then
-          vim.notify("Big file detected", vim.log.levels.INFO)
-          return true
+        -- local file_sizes = vim.fn.getfsize(vim.api.nvim_buf_get_name(bufnr))
+        -- local filetype = vim.filetype.match { buf = bufnr }
+        if file_oneline[1] then --check nil
+          if #file_oneline[1] > 500 then
+            vim.notify("Big file detected", vim.log.levels.INFO)
+            return true
+          end
         end
         return false
       end,
