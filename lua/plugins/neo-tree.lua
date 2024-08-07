@@ -34,7 +34,7 @@ local function trash(state)
     elseif get_os_name() == "macos" then
       vim.api.nvim_command("silent !trash -F " .. node.path)
     elseif get_os_name() == "windows" then
-      --- TODO:for windows ,we need a 'trash' command rather than delete it derectly
+      --- TODO:for windows ,we need a 'trash' command rather than delete it directly
       vim.api.nvim_command("silent !Remove-Item -Path " .. node.path)
     end
   end)
@@ -60,7 +60,7 @@ local function trash_visual(state, selected_nodes)
       elseif get_os_name() == "macos" then
         vim.api.nvim_command("silent !trash -F " .. path)
       elseif get_os_name() == "windows" then
-        --- TODO:for windows ,we need a 'trash' command rather than delete it derectly
+        --- TODO:for windows ,we need a 'trash' command rather than delete it directly
         vim.api.nvim_command("silent !Remove-Item -Path -Recurse" .. path)
       end
     end
@@ -246,28 +246,28 @@ local filetype_mapping = {
 return {
   {
     "nvim-neo-tree/neo-tree.nvim",
- requires = { 
+    requires = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
       "MunifTanjim/nui.nvim",
       -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
       {
-        's1n7ax/nvim-window-picker',
-        version = '2.*',
+        "s1n7ax/nvim-window-picker",
+        version = "2.*",
         config = function()
-            require 'window-picker'.setup({
-                filter_rules = {
-                    include_current_win = false,
-                    autoselect_one = true,
-                    -- filter using buffer options
-                    bo = {
-                        -- if the file type is one of following, the window will be ignored
-                        filetype = { 'neo-tree', "neo-tree-popup", "notify" },
-                        -- if the buffer type is one of following, the window will be ignored
-                        buftype = { 'terminal', "quickfix" },
-                    },
+          require("window-picker").setup {
+            filter_rules = {
+              include_current_win = false,
+              autoselect_one = true,
+              -- filter using buffer options
+              bo = {
+                -- if the file type is one of following, the window will be ignored
+                filetype = { "neo-tree", "neo-tree-popup", "notify" },
+                -- if the buffer type is one of following, the window will be ignored
+                buftype = { "terminal", "quickfix" },
+              },
             },
-        })
+          }
         end,
       },
     },
@@ -314,6 +314,10 @@ return {
           winbar = false,
         },
         filesystem = {
+          commands = {
+            delete = trash,
+            delete_visual = trash_visual,
+          },
           use_libuv_file_watcher = true,
           bind_to_cwd = false,
           follow_current_file = {

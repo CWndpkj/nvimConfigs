@@ -27,16 +27,22 @@ return {
   opts = {
     features = {
       -- Configuration table of features provided by AstroLSP
-      autoformat = false, -- enable or disable auto formatting on start
+      autoformat = true, -- enable or disable auto formatting on start
       inlay_hints = true, -- nvim >= 0.10
       semantic_tokens = true,
-      signature_help = false,
+      signature_help = true,
     },
     -- Configuration options for controlling formatting with language servers
     formatting = {
       -- control auto formatting on save
-      format_on_save = false,
-      -- disable formatting capabilities for specific language servers
+      format_on_save = {
+        -- enable or disable format on save globally
+        enabled = true,
+        -- enable format on save for specified filetypes only
+        allow_filetypes = {},
+        -- disable format on save for specified filetypes
+        ignore_filetypes = {},
+      }, -- disable formatting capabilities for specific language servers
       disabled = {},
       -- default format timeout
       timeout_ms = 20000,

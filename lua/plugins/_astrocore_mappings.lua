@@ -7,7 +7,7 @@ return {
     if not opts.mappings then opts.mappings = require("astrocore").empty_map_table() end
     local project_type = require("utils").detect_project_type()
     local overseer = require "overseer"
-    vim.notify("Workspace Type:<" .. project_type..">",vim.log.levels.INFO )
+    vim.notify("Workspace Type:<" .. project_type .. ">", vim.log.levels.INFO)
     local maps = opts.mappings
     if maps then
       -- Project Tasks mappings
@@ -57,8 +57,7 @@ return {
       end
 
       -- term mode mappings
-      maps.t["jk"] = { "<C-\\><C-n>", desc = "Exit term mode" }
-      maps.t["<esc>"] = { "<C-\\><C-n>", desc = "Exit term mode" }
+      maps.t["<esc>"] = { "<C-\\><C-n><CR>", desc = "Exit term mode" }
 
       -- <Leader>n
       maps.n["<Leader>n"] = { "", desc = "Highlights" }
@@ -74,8 +73,8 @@ return {
       maps.n.n = { utils.better_search "n", desc = "Next search" }
       maps.n.N = { utils.better_search "N", desc = "Previous search" }
 
-      maps.v["J"] = { ":move '>+1<CR>gv-gv", desc = "Move line down", silent = true }
-      maps.v["K"] = { ":move '<-2<CR>gv-gv", desc = "Move line up", silent = true }
+      maps.v["<A-j>"] = { ":move '>+1<CR>gv-gv", desc = "Move line down", silent = true }
+      maps.v["<A-k>"] = { ":move '<-2<CR>gv-gv", desc = "Move line up", silent = true }
 
       maps.i["<C-S>"] = { "<esc>:w<cr>a", desc = "Save file", silent = true }
       maps.x["<C-S>"] = { "<esc>:w<cr>a", desc = "Save file", silent = true }
@@ -98,7 +97,7 @@ return {
       maps.n["x"] = { '"_x', desc = "Cut without copy" }
 
       -- 分屏快捷键
-      maps.n["<Leader>w"] = { desc = "󱂬 Window" }
+      maps.n["<Leader>w"] = { "", desc = "󱂬 Window" }
       maps.n["<Leader>ww"] = { "<cmd><cr>", desc = "Save" }
       maps.n["<Leader>wc"] = { "<C-w>c", desc = "Close current screen" }
       maps.n["<Leader>wo"] = { "<C-w>o", desc = "Close other screen" }

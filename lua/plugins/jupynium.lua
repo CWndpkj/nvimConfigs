@@ -10,8 +10,8 @@ return {
       if not opts.mappings then opts.mappings = require("astrocore").empty_map_table() end
       local maps = opts.mappings
       if maps then
-        maps.n[prefix] = { desc = " Jupynium" }
-        maps.v[prefix] = { desc = " Jupynium" }
+        maps.n[prefix] = { "", desc = " Jupynium" }
+        maps.v[prefix] = { "", desc = " Jupynium" }
         maps.n[prefix .. "s"] = {
           "<cmd>JupyniumStartAndAttachToServer<CR>",
           desc = "Jupynium start and attach to server",
@@ -92,6 +92,6 @@ return {
         use_default_keybindings = false,
       },
     },
-    build = "pip install --user .",
+    build = "pipx install --user .",
   },
 }
