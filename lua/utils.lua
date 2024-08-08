@@ -185,7 +185,7 @@ end
 function M.write_to_file(content, file_path)
   local file = io.open(file_path, "a")
   if not file then
-    vim.notify("Unable to open file: " .. file_path,vim.log.levels.ERROR)
+    vim.notify("Unable to open file: " .. file_path, vim.log.levels.ERROR)
     return
   end
   file:write(vim.inspect(content))

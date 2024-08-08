@@ -84,6 +84,8 @@ now,this config supports development in `TypeScript`,`Python`,`Go`,`Rust` and `m
 ### The system should supports commands
 
 `npm`,`rustc`,`go`,`tmux` -- if you want to use `tmux-awesome-manager`
+### Note:for cortex debug
+run `MasonInstall cortex-debug` after installed
 
 ### Recommend install
 

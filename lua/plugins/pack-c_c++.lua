@@ -42,15 +42,40 @@ return {
   },
   {
     "jay-babu/mason-nvim-dap.nvim",
-    optional = true,
     opts = function(_, opts)
       -- dap
       opts.ensure_installed = utils.list_insert_unique(opts.ensure_installed, { "codelldb" })
     end,
   },
   {
+    "jedrzejboczar/nvim-dap-cortex-debug",
+    config = function()
+      require("dap-cortex-debug").setup {
+        debug = true, -- log debug messages
+        -- path to cortex-debug extension, supports vim.fn.glob
+        -- by default tries to guess: mason.nvim or VSCode extensions
+        extension_path = nil,
+        lib_extension = nil, -- shared libraries extension, tries auto-detecting, e.g. 'so' on unix
+        node_path = "node", -- path to node.js executable
+        dapui_rtt = true, -- register nvim-dap-ui RTT element
+        -- make :DapLoadLaunchJSON register cortex-debug for C/C++, set false to disable
+        dap_vscode_filetypes = { "c", "cpp" },
+      }
+    end,
+    requires = {
+      "mfussenegger/nvim-dap",
+    },
+  },
+  --FIXME:This not work,install manually needed
+  -- {
+  --   "williamboman/mason.nvim",
+  --   opts = function(_, opts)
+  --     -- dap
+  --     opts.ensure_installed = utils.list_insert_unique(opts.ensure_installed, { "cortex-debug" })
+  --   end,
+  -- },
+  {
     "williamboman/mason-lspconfig.nvim",
-    optional = true,
     opts = function(_, opts)
       -- lsp
       opts.ensure_installed = utils.list_insert_unique(opts.ensure_installed, { "clangd", "cmake" })
