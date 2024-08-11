@@ -6,7 +6,7 @@
   - [Features](#features)
   - [workflow screenshot](#workflow-screenshot)
   - [other components config](#other-components-config)
-  - [🛠️ Installation](#🛠️-installation)
+  - [🛠️ Installation](#️-installation)
     - [The system should supports commands](#the-system-should-supports-commands)
     - [Recommend install](#recommend-install)
     - [Note: for rust development](#note-for-rust-development)
@@ -19,10 +19,10 @@
     - [Use Lazygit](#use-lazygit)
     - [Install unimatrix](#install-unimatrix)
     - [Install TTE](#install-tte)
+    - [Install Bottom](#install-bottom)
     - [Neovim requirements](#neovim-requirements)
     - [Markdown Image Paste](#markdown-image-paste)
     - [Input Auto Switch](#input-auto-switch)
-    - [Support styled-components](#support-styled-components)
     - [Support for neovide](#support-for-neovide)
     - [Support Lazydocker](#support-lazydocker)
   - [General Mappings](#general-mappings)
@@ -41,7 +41,7 @@ This streamlined combination of tools significantly enhances my productivity and
 
 ## Support neovim version
 
-neovim >= `0.10`, recommend `0.10.0`
+neovim >= `0.10`, recommend `0.10.1`
 
 ## Features
 
@@ -83,9 +83,7 @@ now,this config supports development in `TypeScript`,`Python`,`Go`,`Rust` and `m
 
 ### The system should supports commands
 
-`npm`,`rustc`,`go`,`tmux` -- if you want to use `tmux-awesome-manager`
-### Note:for cortex debug
-run `MasonInstall cortex-debug` after installed
+`npm`,`rustc`,`go`,`tmux`
 
 ### Recommend install
 
@@ -100,6 +98,7 @@ brew install gdu
 brew install bottom
 brew install protobuf
 brew install gnu-sed
+brew install mercurial
 
 pip install notebook nbclassic jupyter-console
 pip install git+https://github.com/will8211/unimatrix.git
@@ -116,7 +115,7 @@ brew install lazydocker
 
 ### Note: for rust development
 
-> rustup and mason's installation of rust-analzyer are different and may cause some [bugs](https://github.com/rust-lang/rust-analyzer/issues/17289), manual installation is recommended. 
+> rustup and mason's installation of rust-analzyer are different and may cause some [bugs](https://github.com/rust-lang/rust-analyzer/issues/17289), manual installation is recommended.
 
 ```
 rustup component add rust-analyzer
@@ -181,7 +180,18 @@ pip install git+https://github.com/will8211/unimatrix.git
 pip install terminaltexteffects
 ```
 
-![](./assets/imgs/tte.png)
+https://github.com/user-attachments/assets/38f57960-8e7d-4e5a-ab7a-3726dd8f3f19
+
+
+### Install Bottom
+
+`<Leader>tt`
+
+```shell
+brew install bottom
+```
+
+![bottom](assets/imgs/bottom.png)
 
 ### Neovim requirements
 
@@ -215,12 +225,6 @@ return {
     set_previous_events = { "InsertEnter", "FocusLost" },
   },
 }
-```
-
-### Support styled-components
-
-```shell
-npm i -g @styled/typescript-styled-plugin typescript-styled-plugin
 ```
 
 ### Support for neovide
