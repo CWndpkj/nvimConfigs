@@ -34,7 +34,7 @@ local function trash(state)
       vim.api.nvim_command("silent !trash -F " .. node.path)
     elseif get_os_name() == "windows" then
       --- TODO:for windows ,we need a 'trash' command rather than delete it derectly
-      vim.api.nvim_command("silent !Remove-Item -Path " .. node.path)
+      vim.api.nvim_command("silent !Remove-Item -Recurse -Path " .. node.path)
     end
   end)
 end
@@ -55,12 +55,12 @@ local function trash_visual(state, selected_nodes)
       if buf_id and buf_id ~= 0 then require("astrocore.buffer").close(buf_id, true) end
       cmds.refresh(state)
       if get_os_name() == "linux" then
-        vim.api.nvim_command("silent !trash -f -d " .. path)
+        vim.api.nvim_command("silent !trash -f " .. path)
       elseif get_os_name() == "macos" then
         vim.api.nvim_command("silent !trash -F " .. path)
       elseif get_os_name() == "windows" then
         --- TODO:for windows ,we need a 'trash' command rather than delete it derectly
-        vim.api.nvim_command("silent !Remove-Item -Path -Recurse" .. path)
+        vim.api.nvim_command("silent !Remove-Item -Recurse -Path " .. path)
       end
     end
   end)
