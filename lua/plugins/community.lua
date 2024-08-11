@@ -9,12 +9,6 @@ if vim.g.neovide then
   vim.g.neovide_input_macos_option_key_is_meta = "only_left"
   vim.g.neovide_cursor_vfx_mode = "railgun"
 
-  -- local alpha = function() return string.format("%x", math.floor((255 * vim.g.transparency) or 0.8)) end
-  -- g:neovide_transparency should be 0 if you want to unify transparency of content and title bar.
-  vim.g.neovide_transparency = 0.98
-  vim.g.transparency = 0.98
-  -- vim.g.neovide_transparency = "#24283b"
-
   if system == "Darwin" then
     vim.g.neovide_input_use_logo = 1 -- enable use of the logo (cmd) key
 
@@ -33,7 +27,6 @@ return {
   { import = "astrocommunity.recipes.astrolsp-no-insert-inlay-hints" },
   { import = "astrocommunity.lsp.nvim-lsp-file-operations" },
   { import = "astrocommunity.recipes.auto-session-restore" },
-  { import = "astrocommunity.recipes.astrolsp-auto-signature-help" },
   { import = "astrocommunity.recipes.neovide" },
   { import = "astrocommunity.keybinding.nvcheatsheet-nvim" },
   {
@@ -53,5 +46,4 @@ return {
       },
     },
   },
-  -- { import = "astrocommunity.workflow.hardtime-nvim" },
 }

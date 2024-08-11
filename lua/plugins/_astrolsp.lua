@@ -27,7 +27,7 @@ return {
   opts = {
     features = {
       -- Configuration table of features provided by AstroLSP
-      autoformat = false, -- enable or disable auto formatting on start
+      autoformat = true, -- enable or disable auto formatting on start
       inlay_hints = true, -- nvim >= 0.10
       semantic_tokens = true,
       signature_help = true,
@@ -35,47 +35,20 @@ return {
     -- Configuration options for controlling formatting with language servers
     formatting = {
       -- control auto formatting on save
-      format_on_save = false,
-      -- disable formatting capabilities for specific language servers
+      format_on_save = {
+        -- enable or disable format on save globally
+        enabled = true,
+        -- enable format on save for specified filetypes only
+        allow_filetypes = {},
+        -- disable format on save for specified filetypes
+        ignore_filetypes = {},
+      }, -- disable formatting capabilities for specific language servers
       disabled = {},
       -- default format timeout
-      timeout_ms = 600000,
+      timeout_ms = 20000,
     },
     lsp_handlers = {
       [methods.textDocument_inlayHint] = simplify_inlay_hint_handler,
-    },
-    autocmds = {
-      auto_add_lsp_mapping = {
-        {
-          event = "BufEnter",
-          desc = "auto add lsp mapping",
-          callback = function()
-            -- get current buffer file type
-            local ft = vim.bo.filetype
-            if ft == "go" then
-              require("utils").set_telescope_lsp_mapping()
-            elseif ft == "lua" then
-              require("utils").set_telescope_lsp_mapping()
-            elseif
-              require("utils").is_in_list(ft, {
-                "javascript",
-                "javascriptreact",
-                "javascript.jsx",
-                "typescript",
-                "typescriptreact",
-                "typescript.tsx",
-                "vue",
-              })
-            then
-              require("utils").set_telescope_lsp_mapping()
-            elseif ft == "rust" then
-              require("utils").set_telescope_lsp_mapping()
-            else
-              require("utils").set_native_lsp_mapping()
-            end
-          end,
-        },
-      },
     },
   },
 }
