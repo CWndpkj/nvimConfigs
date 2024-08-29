@@ -72,6 +72,8 @@ function M.copy_file(source_file, target_file)
   vim.notify("File " .. target_file .. " created success.", vim.log.levels.INFO)
 end
 
+function M.get_filename_with_extension_from_path(path) return string.match(path, "([^/]+)$") end
+
 function M.create_launch_json()
   vim.ui.select({
     "go",
@@ -185,7 +187,7 @@ end
 function M.write_to_file(content, file_path)
   local file = io.open(file_path, "a")
   if not file then
-    vim.notify("Unable to open file: " .. file_path,vim.log.levels.ERROR)
+    vim.notify("Unable to open file: " .. file_path, vim.log.levels.ERROR)
     return
   end
   file:write(vim.inspect(content))
@@ -214,20 +216,24 @@ function M.toggle_lazy_docker()
       cmd = "lazydocker",
       direction = "float",
       hidden = true,
-      on_open = function()
-        M.remove_keymap("t", "<C-H>")
-        M.remove_keymap("t", "<C-J>")
-        M.remove_keymap("t", "<C-K>")
-        M.remove_keymap("t", "<C-L>")
-        M.remove_keymap("t", "<Esc>")
+      on_open = function() M.remove_keymap("t", "<Esc>") end,
+      on_close = function() vim.api.nvim_set_keymap("t", "<Esc>", [[<C-\><C-n>]], { silent = true, noremap = true }) end,
+      on_exit = function()
+        -- For Stop Term Mode
+        vim.cmd [[stopinsert]]
       end,
-      on_close = function()
-        vim.api.nvim_set_keymap("t", "<C-H>", "<cmd>wincmd h<cr>", { silent = true, noremap = true })
-        vim.api.nvim_set_keymap("t", "<C-J>", "<cmd>wincmd j<cr>", { silent = true, noremap = true })
-        vim.api.nvim_set_keymap("t", "<C-K>", "<cmd>wincmd k<cr>", { silent = true, noremap = true })
-        vim.api.nvim_set_keymap("t", "<C-L>", "<cmd>wincmd l<cr>", { silent = true, noremap = true })
-        vim.api.nvim_set_keymap("t", "<Esc>", [[<C-\><C-n>]], { silent = true, noremap = true })
-      end,
+    }
+  end
+end
+
+function M.toggle_btm()
+  return function()
+    require("astrocore").toggle_term_cmd {
+      cmd = "btm",
+      direction = "float",
+      hidden = true,
+      on_open = function() M.remove_keymap("t", "<Esc>") end,
+      on_close = function() vim.api.nvim_set_keymap("t", "<Esc>", [[<C-\><C-n>]], { silent = true, noremap = true }) end,
       on_exit = function()
         -- For Stop Term Mode
         vim.cmd [[stopinsert]]
@@ -244,20 +250,8 @@ function M.toggle_lazy_git()
       cmd = "lazygit " .. flags,
       direction = "float",
       hidden = true,
-      on_open = function()
-        M.remove_keymap("t", "<C-H>")
-        M.remove_keymap("t", "<C-J>")
-        M.remove_keymap("t", "<C-K>")
-        M.remove_keymap("t", "<C-L>")
-        M.remove_keymap("t", "<Esc>")
-      end,
-      on_close = function()
-        vim.api.nvim_set_keymap("t", "<C-H>", "<cmd>wincmd h<cr>", { silent = true, noremap = true })
-        vim.api.nvim_set_keymap("t", "<C-J>", "<cmd>wincmd j<cr>", { silent = true, noremap = true })
-        vim.api.nvim_set_keymap("t", "<C-K>", "<cmd>wincmd k<cr>", { silent = true, noremap = true })
-        vim.api.nvim_set_keymap("t", "<C-L>", "<cmd>wincmd l<cr>", { silent = true, noremap = true })
-        vim.api.nvim_set_keymap("t", "<Esc>", [[<C-\><C-n>]], { silent = true, noremap = true })
-      end,
+      on_open = function() M.remove_keymap("t", "<Esc>") end,
+      on_close = function() vim.api.nvim_set_keymap("t", "<Esc>", [[<C-\><C-n>]], { silent = true, noremap = true }) end,
       on_exit = function()
         -- For Stop Term Mode
         vim.cmd [[stopinsert]]
