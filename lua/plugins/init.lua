@@ -1,6 +1,6 @@
 ---@type LazySpec
 return {
-  { "max397574/better-escape.nvim", lazy = false },
+  { "max397574/better-escape.nvim", enabled=false },
   {
     "akinsho/toggleterm.nvim",
     opts = function(_, opts)
