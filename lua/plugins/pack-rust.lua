@@ -93,7 +93,13 @@ return {
         end,
       }
       local final_server = require("astrocore").extend_tbl(astrolsp_opts, server)
+      ---@type rustaceanvim.Opts
       return {
+        ---@type rustaceanvim.tools.Opts
+        tools = {
+          executor = "toggleterm",
+          test_executor = "toggleterm",
+        },
         server = final_server,
         default_settings = {
           -- rust-analyzer language server configuration
