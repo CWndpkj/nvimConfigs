@@ -11,7 +11,7 @@ local simplify_inlay_hint_handler = function(err, result, ctx, config)
       .iter(result)
       :map(function(hint)
         local label = hint.label
-        if not (label ~= nil and #label < 5) then hint.label = {} end
+        if not (label ~= nil and #label < 10) then hint.label = {} end
         return hint
       end)
       :filter(function(hint) return #hint.label > 0 end)
@@ -30,7 +30,6 @@ return {
       autoformat = true, -- enable or disable auto formatting on start
       inlay_hints = true, -- nvim >= 0.10
       semantic_tokens = true,
-      signature_help = true,
     },
     -- Configuration options for controlling formatting with language servers
     formatting = {
