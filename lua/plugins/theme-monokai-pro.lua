@@ -1,10 +1,10 @@
 local function init_opts()
   if vim.g.neovide then
-    return {}
-  else
     return {
-      transparent_background = true,
+      filter = "machine",
     }
+  else
+    return {}
   end
 end
 return {
