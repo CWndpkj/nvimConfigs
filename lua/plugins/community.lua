@@ -1,7 +1,8 @@
 local system = vim.loop.os_uname().sysname
 
 if vim.g.neovide then
-  vim.o.guifont = "JetBrainsMono Nerd Font:h12"
+  vim.o.guifont = "JetBrainsMono Nerd Font:h13"
+  vim.o.linespace = -1
   vim.g.neovide_no_idle = true
   vim.g.neovide_confirm_quit = true
   vim.g.neovide_fullscreen = false
@@ -24,7 +25,7 @@ end
 ---@type LazySpec
 return {
   "AstroNvim/astrocommunity",
-  { import = "astrocommunity.recipes.astrolsp-no-insert-inlay-hints" },
+  -- { import = "astrocommunity.recipes.astrolsp-no-insert-inlay-hints" },
   { import = "astrocommunity.lsp.nvim-lsp-file-operations" },
   { import = "astrocommunity.recipes.auto-session-restore" },
   { import = "astrocommunity.recipes.neovide" },
