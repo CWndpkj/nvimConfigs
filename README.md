@@ -202,13 +202,13 @@ pip install pynvim
 
 ### Markdown Image Paste
 
-```shell
+```sh
 pip install pillow
 ```
 
 ### Input Auto Switch
 
-```shell
+```sh
 brew tap daipeihust/tap
 brew install im-select
 im-select
@@ -229,7 +229,7 @@ return {
 
 ### Support for neovide
 
-```
+```sh
 brew install neovide
 neovide .
 ```
@@ -238,43 +238,39 @@ neovide .
 
 tigger command: `<leader>td`
 
-```shell
+```sh
 brew install lazydocker
 ```
 
 ## General Mappings
-
-| Action                      | Mappings            | Mode |
-| --------------------------- | ------------------- |------|
-| Leader key                  | `Space`               |   n  |
-| Resize up                   | `Ctrl + Up`           |  n  |
-| Resize Down                 | `Ctrl + Down`         |  n  |
-| Resize Left                 | `Ctrl + Left`         |  n  |
-| Resize Right                | `Ctrl + Right`        |  n  |
-| Up Window                   | `Ctrl + k`            |  n  |
-| Down Window                 | `Ctrl + j`             |  n  |
-| Left Window                 | `Ctrl + h`          |  n  |
-| Right Window                | `Ctrl + l`          |  n  |
-| Force Write                 | `Ctrl + s`          |  n  |
-| Force Quit                  | `Ctrl + q`          |  n  |
-| New File                    | `Leader + n`        |  n  |
-| Close Buffer                | `Leader + c`        |  n  |
-| Next Tab (real vim tab)     | `]t`                |  n  |
-| Previous Tab (real vim tab) | `[t`                |  n  |
-| Comment                     | `Control + /`        |  n  |
-| Horizontal Split            | `\`                 |  n  |
-| Vertical Split              | <code>&#124;</code> |  n  |
-| Open task menu              | `<Leader>c`          |  n  |
+| Action                      | Mappings              | Mode |
+|-----------------------------|-----------------------|------|
+| Leader key                  | `Space`               |  n   |
+| Resize up                   | `Ctrl + Up`           |  n   |
+| Resize Down                 | `Ctrl + Down`         |  n   |
+| Resize Left                 | `Ctrl + Left`         |  n   |
+| Resize Right                | `Ctrl + Right`        |  n   |
+| Up Window                   | `Ctrl + k`            |  n   |
+| Down Window                 | `Ctrl + j`            |  n   |
+| Left Window                 | `Ctrl + h`            |  n   |
+| Right Window                | `Ctrl + l`            |  n   |
+| Force Write                 | `Ctrl + s`            |  n   |
+| Force Quit                  | `Ctrl + q`            |  n   |
+| New File                    | `Leader + n`          |  n   |
+| Close Buffer                | `Leader + c`          |  n   |
+| Next Tab (real vim tab)     | `]t`                  |  n   |
+| Previous Tab (real vim tab) | `[t`                  |  n   |
+| Comment                     | `Control + /`         |  n   |
+| Horizontal Split            | `\ `                  |  n   |
+| Vertical Split              | <code>\|</code>       |  n   |
+| Open task menu              | `<Leader>c`           |  n   |
 
 Copilot Mappings
 
 | Action                      | Mappings            | Mode |
 |-----------------------------|---------------------|------|
-| Open chat panel             |  `<Leader>nc`       |  n     |
-| Accept inline suggestion    | `<C-.>`             |    n   |
-
-
-For more mappings,see which key prompt or mappings config files
+| Open chat panel             | `<Leader>nc`        |  n   |
+| Accept inline suggestion    | `<C-.>`             |  n   |
 
 
 ## NOTE

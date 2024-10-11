@@ -4,7 +4,7 @@ return {
     "AstroNvim/astroui",
     ---@type AstroUIOpts
     opts = {
-      colorscheme = "monokai-pro",
+      colorscheme = "onedark",
       icons = {
         ActiveLSP = "",
         ActiveTS = "",

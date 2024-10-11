@@ -29,16 +29,55 @@ return {
   {
     "nvimtools/none-ls.nvim",
     config = function()
+      local cwd = vim.fn.getcwd()
+      local clazy = require("null-ls").builtins.diagnostics.clazy
+      if require("utils").detect_workspace_type() == "c/c++" then
+        local compile_commands =
+          require("utils").is_file_exsits_in_paths("compile_commands.json", { cwd .. "/build", cwd })
+        if compile_commands then
+          clazy = clazy.with {
+            extra_args = { "-p", compile_commands },
+          }
+        else
+          vim.notify("compile_commands not found", vim.log.levels.WARN)
+        end
+      end
       require("null-ls").setup {
         sources = {
           require("null-ls").builtins.formatting.clang_format,
-          require("null-ls").builtins.diagnostics.clazy,
           require("null-ls").builtins.formatting.cmake_format,
           require("null-ls").builtins.diagnostics.cmake_lint,
+          clazy,
         },
       }
     end,
     requires = { "nvim-lua/plenary.nvim" },
+  },
+  {
+    "neovim/nvim-lspconfig",
+    config = function()
+      local cmd = {
+        "clangd",
+        "--clang-tidy",
+        "--background-index",
+        "--completion-style=detailed",
+        "--header-insertion=never",
+        "--fallback-style=LLVM",
+        "--pch-storage=memory",
+        "--all-scopes-completion",
+        "--pretty",
+      }
+
+      if require("utils").detect_workspace_type() == "c/c++" then
+        local cwd = vim.fn.getcwd()
+        -- TODO: Add more possible paths to search for compile_commands.json
+        local compile_commands = require("utils").is_file_exsits_in_paths("compile_commands.json", { cwd .. "/build", cwd })
+        if compile_commands then utils.list_insert_unique(cmd, { "--compile-commands-dir", compile_commands }) end
+      end
+      require("lspconfig").clangd.setup {
+        cmd = cmd,
+      }
+    end,
   },
   {
     "jay-babu/mason-nvim-dap.nvim",
@@ -66,14 +105,6 @@ return {
       "mfussenegger/nvim-dap",
     },
   },
-  --FIXME:This not work,install manually needed
-  -- {
-  --   "williamboman/mason.nvim",
-  --   opts = function(_, opts)
-  --     -- dap
-  --     opts.ensure_installed = utils.list_insert_unique(opts.ensure_installed, { "cortex-debug" })
-  --   end,
-  -- },
   {
     "williamboman/mason-lspconfig.nvim",
     opts = function(_, opts)

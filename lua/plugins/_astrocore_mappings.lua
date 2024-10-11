@@ -5,24 +5,18 @@ return {
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
     if not opts.mappings then opts.mappings = require("astrocore").empty_map_table() end
-    local project_type = require("utils").detect_project_type()
+    local workspace_type = require("utils").detect_workspace_type()
     local overseer = require "overseer"
-    vim.notify("Workspace Type:<" .. project_type .. ">", vim.log.levels.INFO)
+    vim.notify("Workspace Type:" .. workspace_type .. "", vim.log.levels.INFO)
     local maps = opts.mappings
     if maps then
       -- Project Tasks mappings
-      if project_type == "C/C++" then
+      if workspace_type == "c/c++" then
         maps.n["<Leader>ns"] = { "<Cmd>ClangdSwitchSourceHeader<CR>", desc = "Switch between source and header" }
 
         maps.n["<Leader>c"] = { "", desc = "Cmake tasks" }
         maps.n["<Leader>cs"] = { "", desc = "Select Target" }
-        maps.n["<Leader>cr"] = {
-          function()
-            local cmake_tools = require "cmake-tools"
-            if cmake_tools.is_cmake_project() then vim.cmd "CMakeRun" end
-          end,
-          desc = "Run",
-        }
+        maps.n["<Leader>cr"] = { "<Cmd>CMakeRun<CR>", desc = "Run" }
         maps.n["<Leader>csr"] = { "<Cmd>CMakeSelectLaunchTarget<CR>", desc = "Select Launch Target" }
         maps.n["<Leader>cg"] = {
           "<Cmd>CMakeGenerate<CR>",
@@ -34,8 +28,8 @@ return {
         maps.n["<Leader>cd"] = { "<Cmd>CMakeDebug<CR>", desc = "Debug" }
         maps.n["<LEader>cc"] = { "<Cmd>CMakeClean<CR>", desc = "Clean" }
         maps.n["<F5>"] = { "<cmd>CMakeDebug<cr>", desc = "Start Debug" }
-      elseif project_type == "Rust" or project_type == "Python" or project_type == "Frontend" then
-        if project_type == "Rust" then
+      elseif workspace_type == "rust" or workspace_type == "python" or workspace_type == "frontend" then
+        if workspace_type == "rust" then
           maps.n["<Leader>c"] = { "", desc = "Cargo tasks" }
           maps.n["<Leader>cs"] = { "", desc = "Select Target" }
           maps.n["<F5>"] = { "<Cmd>RustLsp! debuggables<CR>", desc = "Start Debug" }
@@ -47,10 +41,10 @@ return {
           }
           maps.n["<Leader>cr"] = { "<Cmd>RustLsp! runnables<CR>", desc = "Run" }
           maps.n["<Leader>csr"] = { "<Cmd>RustLsp runnables<CR>", desc = "Select Run Target" }
-        elseif project_type == "Python" then
+        elseif workspace_type == "python" then
           maps.n["<Leader>c"] = { "", desc = "Python tasks" }
-          --TODO: Add python tasks
-        elseif project_type == "Frontend" then
+          -- TODO: Add python tasks
+        elseif workspace_type == "frontend" then
           maps.n["<Leader>c"] = { "", desc = "Frontend tasks" }
           maps.n["<Leader>cr"] = { "<Cmd>OverseerRun<CR>", desc = "Run" }
         end
@@ -60,7 +54,7 @@ return {
       maps.t["<esc>"] = { "<C-\\><C-n><CR>", desc = "Exit term mode" }
 
       -- <Leader>n
-      maps.n["<Leader>n"] = { "", desc = "Highlights" }
+      maps.n["<Leader>n"] = { "", desc = "Highlights and copilot" }
       -- close search highlight
       maps.n["<Leader>nh"] = { ":nohlsearch<CR>", desc = "Close search highlight", silent = true }
       maps.n["<Leader>nc"] = { "<Cmd>CopilotChatToggle<CR>", desc = "Copilot Chat Toggle" }

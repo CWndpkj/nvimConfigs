@@ -413,28 +413,102 @@ function M.get_os_name()
   end
 end
 
-function M.detect_project_type()
-  local path = vim.fn.getcwd()
-  local cmake_tools = require "cmake-tools"
-  -- TODO: We need to add more kinds of projects here
-  if cmake_tools.is_cmake_project() then
-    return "C/C++"
-  elseif vim.fn.filereadable(path .. "/Cargo.toml") == 1 then
-    return "Rust"
-  elseif vim.fn.isdirectory(path .. "/node_modules") == 1 or vim.fn.filereadable(path .. "/package.json") == 1 then
-    return "Frontend"
-  elseif vim.fn.filereadable(path .. "/requirements.txt") == 1 or vim.fn.glob(path .. "/*.py") ~= "" then
-    return "Python"
-  elseif
-    vim.fn.filereadable(path .. "/CMakeLists.txt") == 1
-    or vim.fn.glob(path .. "/*.cpp") ~= ""
-    or vim.fn.glob(path .. "/*.c") ~= ""
-    or vim.fn.glob(path .. "/*.cc") ~= ""
-  then
-    return "C/C++"
-  else
-    return "Unknown"
+-- Check if a file exists in a list of paths,
+-- return the full path if it exists, otherwise return false
+function M.is_file_exsits_in_paths(file_name, path_list)
+  for _, path in ipairs(path_list) do
+    local full_path = path .. "/" .. file_name
+    if M.file_exists(full_path) then return full_path end
   end
+  return false
+end
+
+function M.detect_workspace_type()
+  local cwd = vim.fn.getcwd()
+  local cmake_tools = require "cmake-tools"
+  if cmake_tools.is_cmake_project() then
+    return "c/c++"
+  elseif M.file_exists(cwd .. "/Cargo.toml") then
+    return "rust"
+  elseif vim.fn.isdirectory(cwd .. "/node_modules") == 1 or M.file_exists(cwd .. "/package.json") then
+    return "frontend"
+  elseif M.file_exists(cwd .. "/requirements.txt") or M.file_exists(cwd .. "/setup.py") then
+    return "python"
+  else
+    return "unknown"
+  end
+end
+
+function M.is_file_binary_pre_read()
+  local binary_ext = {
+    "out",
+    "bin",
+    "jpeg",
+    "pak",
+    "gz",
+    "rar",
+    "exe",
+    "bz2",
+    "tar",
+    "xz",
+    "Z",
+    "rpm",
+    "zip",
+    "a",
+    "so",
+    "o",
+    "jar",
+    "dll",
+    "lib",
+    "deb",
+    "I",
+    "png",
+    "jpg",
+    "mp3",
+    "mp4",
+    "m4a",
+    "flv",
+    "mkv",
+    "rmvb",
+    "avi",
+    "pcap",
+    "pdf",
+    "docx",
+    "xlsx",
+    "pptx",
+    "ram",
+    "mid",
+    "dwg",
+    "dtb",
+    "elf",
+  }
+  -- only work on normal buffers
+  -- Is this working?
+  if vim.bo.ft ~= "" then return false end
+  -- check -b flag
+  if vim.bo.bin then return true end
+  -- check ext within binary_ext
+  local filename = vim.fn.expand "%:p"
+  local ext = vim.fn.expand "%:e"
+  if vim.tbl_contains(binary_ext, ext) then return true end
+  local binary_file_header_tbl = {
+    "\x7f\x45\x4c\x46", -- ELF,
+    "\x50\x4b\x03\x04", --Archive
+    "\x00\x00\xa0\xe1", --zImage
+  }
+  local file = io.open(filename, "rb")
+  if file then
+    local chunk = file:read(4)
+    if vim.tbl_contains(binary_file_header_tbl, chunk) then return true end
+  end
+  -- none of the above
+  return false
+end
+
+function M.is_file_binary_post_read()
+  local encoding = (vim.bo.fenc ~= "" and vim.bo.fenc) or vim.o.enc
+  if encoding ~= "utf-8" then return true end
+  return false
 end
 
 return M
