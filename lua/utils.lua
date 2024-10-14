@@ -415,7 +415,7 @@ end
 
 -- Check if a file exists in a list of paths,
 -- return the full path if it exists, otherwise return false
-function M.is_file_exsits_in_paths(file_name, path_list)
+function M.detect_file_in_paths(file_name, path_list)
   for _, path in ipairs(path_list) do
     local full_path = path .. "/" .. file_name
     if M.file_exists(full_path) then return full_path end
