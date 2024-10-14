@@ -29,7 +29,7 @@ return {
       -- Configuration table of features provided by AstroLSP
       autoformat = true, -- enable or disable auto formatting on start
       inlay_hints = true, -- nvim >= 0.10
-      semantic_tokens = true,
+      signature_help = true,
     },
     -- Configuration options for controlling formatting with language servers
     formatting = {
@@ -42,7 +42,12 @@ return {
         -- disable format on save for specified filetypes
         ignore_filetypes = {},
       }, -- disable formatting capabilities for specific language servers
-      disabled = {},
+      disabled = {
+      	-- TODO: After clangd supports specify formatting options, remove it from this list
+        "clangd",
+        -- INFO: Don't use neocmake for formatting, we use cmake_format with flexible options
+        "neocmake",
+      },
       -- default format timeout
       timeout_ms = 20000,
     },

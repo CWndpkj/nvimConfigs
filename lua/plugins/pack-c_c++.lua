@@ -15,67 +15,114 @@ return {
     "jay-babu/mason-null-ls.nvim",
     optional = true,
     event = { "BufReadPre", "BufNewFile" },
-    dependencies = {
-      "williamboman/mason.nvim",
-      "nvimtools/none-ls.nvim",
-    },
     opts = function(_, opts)
-      opts.ensure_installed = utils.list_insert_unique(
+      opts.ensure_installed = require("astrocore").list_insert_unique(
         opts.ensure_installed,
         { "clang-format", "clazy-standalone", "cmake-format", "cmake-lint" }
       )
     end,
   },
   {
-    "nvimtools/none-ls.nvim",
-    config = function()
-      local cwd = vim.fn.getcwd()
-      local clazy = require("null-ls").builtins.diagnostics.clazy
-      if require("utils").detect_workspace_type() == "c/c++" then
-        local compile_commands =
-          require("utils").is_file_exsits_in_paths("compile_commands.json", { cwd .. "/build", cwd })
-        if compile_commands then
-          clazy = clazy.with {
-            extra_args = { "-p", compile_commands },
-          }
-        else
-          vim.notify("compile_commands not found", vim.log.levels.WARN)
-        end
+    "AstroNvim/astrolsp",
+    ft = { "c", "cpp", "cmake" },
+    optional = true,
+    opts = function(_, opts)
+      local clang_format_config
+      local global_clang_format_config = vim.fn.stdpath "config" .. "/dotfiles/.clang-format"
+      local user_clang_format_config = vim.fn.getcwd() .. "/.clang-format"
+      if require("utils").file_exists(user_clang_format_config) then
+        clang_format_config = user_clang_format_config
+      else
+        clang_format_config = global_clang_format_config
       end
-      require("null-ls").setup {
-        sources = {
-          require("null-ls").builtins.formatting.clang_format,
-          require("null-ls").builtins.formatting.cmake_format,
-          require("null-ls").builtins.diagnostics.cmake_lint,
-          clazy,
-        },
-      }
-    end,
-    requires = { "nvim-lua/plenary.nvim" },
-  },
-  {
-    "neovim/nvim-lspconfig",
-    config = function()
-      local cmd = {
-        "clangd",
+      local extra_args = {
         "--clang-tidy",
         "--background-index",
         "--completion-style=detailed",
         "--header-insertion=never",
-        "--fallback-style=LLVM",
         "--pch-storage=memory",
         "--all-scopes-completion",
         "--pretty",
+        -- INFO:Clangd will supports this option soon,bu not yet,currently we use
+        -- clang-format
+        "-style=file:" .. clang_format_config,
       }
 
       if require("utils").detect_workspace_type() == "c/c++" then
         local cwd = vim.fn.getcwd()
         -- TODO: Add more possible paths to search for compile_commands.json
-        local compile_commands = require("utils").is_file_exsits_in_paths("compile_commands.json", { cwd .. "/build", cwd })
-        if compile_commands then utils.list_insert_unique(cmd, { "--compile-commands-dir", compile_commands }) end
+        local compile_commands =
+          require("utils").detect_file_in_paths("compile_commands.json", { cwd .. "/build", cwd })
+        if compile_commands then
+          utils.list_insert_unique(extra_args, { "--compile-commands-dir", compile_commands })
+        end
       end
-      require("lspconfig").clangd.setup {
-        cmd = cmd,
+      opts.config = vim.tbl_deep_extend("keep", opts.config, {
+        clangd = {
+          extra_args = extra_args,
+          capabilities = {
+            offsetEncoding = "utf-8",
+          },
+        },
+        neocmake = {
+          single_file_support = true,
+          init_options = {
+            format = {
+              enable = false,
+            },
+            lint = {
+              enable = false,
+            },
+          },
+        },
+      })
+    end,
+  },
+  {
+    "nvimtools/none-ls.nvim",
+    opts = function(_, opts)
+      opts.debug = true
+      local null_ls = require "null-ls"
+      local global_config = vim.fn.stdpath "config" .. "/dotfiles"
+      local user_config = vim.fn.getcwd()
+      local clang_format_args = {}
+      local clazy_args = {}
+      local cmake_format_args = {}
+      local cmake_lint_args = {}
+
+      local path = require("utils").detect_file_in_paths(".clang-format", { user_config, global_config })
+      -- Since we know that the file exists, we can safely use it without checking
+      utils.list_insert_unique(clang_format_args, { "-style=file:" .. path })
+      path = require("utils").detect_file_in_paths(".clazy.yaml", { user_config, global_config })
+      utils.list_insert_unique(clazy_args, { "-config=" .. path })
+      path = require("utils").detect_file_in_paths(".cmake-format.py", { user_config, global_config })
+      print(path)
+      utils.list_insert_unique(cmake_format_args, { "-c", path })
+      -- HACK: Why cmake_format need '-l error' to work?',and it must be added
+      -- after '-c' option,otherwise it will not work
+      utils.list_insert_unique(cmake_format_args, { "-l", "error" })
+      path = require("utils").detect_file_in_paths(".cmake-lint.yaml", { user_config, global_config })
+      utils.list_insert_unique(cmake_lint_args, { "--config=" .. path })
+
+      if require("utils").detect_workspace_type() == "c/c++" then
+        -- TODO: Add more possible paths to search for compile_commands.json
+        path = require("utils").detect_file_in_paths("compile_commands.json", { user_config .. "/build", user_config })
+        if path then utils.list_insert_unique(clazy_args, { "-p", path }) end
+      end
+
+      opts.sources = {
+        null_ls.builtins.formatting.clang_format.with {
+          extra_args = clang_format_args,
+        },
+        null_ls.builtins.diagnostics.clazy.with {
+          extra_args = clazy_args,
+        },
+        null_ls.builtins.formatting.cmake_format.with {
+          extra_args = cmake_format_args,
+        },
+        null_ls.builtins.diagnostics.cmake_lint.with {
+          extra_args = cmake_lint_args,
+        },
       }
     end,
   },
@@ -109,7 +156,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     opts = function(_, opts)
       -- lsp
-      opts.ensure_installed = utils.list_insert_unique(opts.ensure_installed, { "clangd", "cmake" })
+      opts.ensure_installed = utils.list_insert_unique(opts.ensure_installed, { "clangd", "neocmake" })
     end,
   },
   {
@@ -287,7 +334,7 @@ return {
         priority = 100,
       },
       ast = {
-        -- These are unicode, should be available in any font
+        --[[ These are unicode, should be available in any font
         role_icons = {
           type = "🄣",
           declaration = "🄓",
@@ -304,26 +351,27 @@ return {
           TemplateTypeParm = "🅃",
           TemplateTemplateParm = "🅃",
           TemplateParamObject = "🅃",
-        },
-        --[[ These require codicons (https://github.com/microsoft/vscode-codicons)
-            role_icons = {
-                type = "",
-                declaration = "",
-                expression = "",
-                specifier = "",
-                statement = "",
-                ["template argument"] = "",
-            },
+        },]]
 
-            kind_icons = {
-                Compound = "",
-                Recovery = "",
-                TranslationUnit = "",
-                PackExpansion = "",
-                TemplateTypeParm = "",
-                TemplateTemplateParm = "",
-                TemplateParamObject = "",
-            }, ]]
+        --[[ These require codicons (https://github.com/microsoft/vscode-codicons)]]
+        role_icons = {
+          type = "",
+          declaration = "",
+          expression = "",
+          specifier = "",
+          statement = "",
+          ["template argument"] = "",
+        },
+
+        kind_icons = {
+          Compound = "",
+          Recovery = "",
+          TranslationUnit = "",
+          PackExpansion = "",
+          TemplateTypeParm = "",
+          TemplateTemplateParm = "",
+          TemplateParamObject = "",
+        },
 
         highlights = {
           detail = "Comment",
