@@ -1,6 +1,7 @@
 # AstroNvimV4 Config
 
 <!--toc:start-->
+
 - [AstroNvimV4 Config](#astronvimv4-config)
   - [Support neovim version](#support-neovim-version)
   - [Features](#features)
@@ -29,7 +30,7 @@
   - [NOTE](#note)
     - [_vim.lsp.buf.hover()_ `KK` jump into signature help float window](#vimlspbufhover-kk-jump-into-signature-help-float-window)
   - [Project workspace setup](#project-workspace-setup)
-<!--toc:end-->
+  <!--toc:end-->
 
 **NOTE:** This is the latest v4 configuration.
 
@@ -52,6 +53,7 @@ now,this config supports development in `TypeScript`,`Python`,`Go`,`Rust` and `m
 - **_`Go`_**: `gopher.nvim` _-- support go zero framework_
 - **_`Markdown`_**: `iamcco/markdown-preview.nvim`,
 - **_`Rust`_**: `mrcjkb/rustaceanvim`
+- **_`C/C++`_**:`clangd+clang-format+clazy-standalone+neocmake+cmake-lint+cmake-format`
 
 ## workflow screenshot
 
@@ -87,18 +89,41 @@ now,this config supports development in `TypeScript`,`Python`,`Go`,`Rust` and `m
 
 ### Recommend install
 
-```shell
-brew install fzf
-brew install fd
-brew install luarocks
-brew install lazygit
-brew install ripgrep
-npm install -g tree-sitter-cli
-brew install gdu
-brew install bottom
-brew install protobuf
-brew install gnu-sed
-brew install mercurial
+fzf:
+`yay -S fxf`
+
+fd:
+`yay -S fd`
+
+luarocks:
+`yay -S luarocks`
+
+magick:
+`luarocks --lua-version 5.1 install magick`
+
+clazy-standalone:
+`yay -S clazy`
+
+lazygit:
+`yay -S lazygit`
+
+ripgrep:
+`yay -S ripgrep`
+
+tree-sitter-cli:
+`npm install -g tree-sitter-cli`
+
+gdu:
+`yay -S gdu`
+
+bottom:
+`yay -S bottom`
+
+protobuf:
+`yay -S protobuf`
+
+mercurial:
+`yay -S mercurial`
 
 pip install notebook nbclassic jupyter-console
 pip install git+https://github.com/will8211/unimatrix.git
@@ -107,11 +132,14 @@ pip install pynvim
 pip install terminaltexteffects
 
 brew tap daipeihust/tap
-brew install im-select
+im-select:for windows or Darwin
+Use fcitx framework on linux
 
-brew install neovide
-brew install lazydocker
-```
+neovide:
+`yay -S neovide`
+
+lazydocker:
+`yay -S lazydocker-bin`
 
 ### Note: for rust development
 
@@ -182,7 +210,6 @@ pip install terminaltexteffects
 
 https://github.com/user-attachments/assets/ff8aa481-932d-431c-b1a1-ea7cc6e63920
 
-
 ### Install Bottom
 
 `<Leader>tt`
@@ -243,35 +270,35 @@ brew install lazydocker
 ```
 
 ## General Mappings
+
 | Action                      | Mappings              | Mode |
-|-----------------------------|-----------------------|------|
-| Leader key                  | `Space`               |  n   |
-| Resize up                   | `Ctrl + Up`           |  n   |
-| Resize Down                 | `Ctrl + Down`         |  n   |
-| Resize Left                 | `Ctrl + Left`         |  n   |
-| Resize Right                | `Ctrl + Right`        |  n   |
-| Up Window                   | `Ctrl + k`            |  n   |
-| Down Window                 | `Ctrl + j`            |  n   |
-| Left Window                 | `Ctrl + h`            |  n   |
-| Right Window                | `Ctrl + l`            |  n   |
-| Force Write                 | `Ctrl + s`            |  n   |
-| Force Quit                  | `Ctrl + q`            |  n   |
-| New File                    | `Leader + n`          |  n   |
-| Close Buffer                | `Leader + c`          |  n   |
-| Next Tab (real vim tab)     | `]t`                  |  n   |
-| Previous Tab (real vim tab) | `[t`                  |  n   |
-| Comment                     | `Control + /`         |  n   |
-| Horizontal Split            | `\ `                  |  n   |
-| Vertical Split              | <code>\|</code>       |  n   |
-| Open task menu              | `<Leader>c`           |  n   |
+| --------------------------- | --------------------- | ---- |
+| Leader key                  | <kdb>Space</kdb>      | n    |
+| Resize up                   | <kbd>Ctrl+Up</kbd>    | n    |
+| Resize Down                 | <kbd>Ctrl+Down</kbd>  | n    |
+| Resize Left                 | <kbd>Ctrl+Left</kbd>  | n    |
+| Resize Right                | <kbd>Ctrl+Right</kbd> | n    |
+| Up Window                   | <kbd>Ctrl+k</kbd>     | n    |
+| Down Window                 | <kbd>Ctrl+j</kbd>     | n    |
+| Left Window                 | <kbd>Ctrl+h</kbd>     | n    |
+| Right Window                | <kbd>Ctrl+l</kbd>     | n    |
+| Force Write                 | <kbd>Ctrl+s</kbd>     | n    |
+| Force Quit                  | <kbd>Ctrl+q</kbd>     | n    |
+| New File                    | <kbd>Leader+n</kbd>   | n    |
+| Close Buffer                | <kbd>Leader+b+d</kbd> | n    |
+| Next Tab (real vim tab)     | <kbd>Tab</kbd>        | n    |
+| Previous Tab (real vim tab) | <kbd>Shift+Tab</kbd>  | n    |
+| Comment                     | <kbd>Control+/</kbd>  | n    |
+| Horizontal Split            | <kbd>/</kbd>          | n    |
+| Vertical Split              | <kbd>\|</kbd>         | n    |
+| Open task menu              | <kbd>Leader+c</kbd>   | n    |
 
 Copilot Mappings
 
-| Action                      | Mappings            | Mode |
-|-----------------------------|---------------------|------|
-| Open chat panel             | `<Leader>nc`        |  n   |
-| Accept inline suggestion    | `<C-.>`             |  n   |
-
+| Action                   | Mappings     | Mode |
+| ------------------------ | ------------ | ---- |
+| Open chat panel          | `<Leader>nc` | n    |
+| Accept inline suggestion | `<C-.>`      | n    |
 
 ## NOTE
 
@@ -280,7 +307,7 @@ Copilot Mappings
 > Displays hover information about the symbol under the cursor in a floating window. Calling the function twice will jump into the floating window.
 
 ## Project workspace setup
+
 Use`<Leader>c` to open project task menu,and it'll determine the type of current workspace by typical files like node_modules/ for frontend,CMakeLists.txt for c/cpp Cargo.toml for Rust.
 For cmake base c/cpp project,we use 'cmake-tools' to run cmake tasks.
 For other type of project,we use 'overseer' to run tasks,including c/cpp project base on makefile,Rust project ,Python project,Frontend project,etc
-
