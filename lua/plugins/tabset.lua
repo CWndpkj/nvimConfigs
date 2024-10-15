@@ -10,6 +10,10 @@ return {
         tabwidth = 4,
         expandtab = false,
       },
+      python = {
+        tabwidth = 4,
+        expandtab = true,
+      },
       {
         filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact", "json", "yaml" },
         config = {

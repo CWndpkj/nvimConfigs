@@ -10,10 +10,8 @@ return {
     vim.notify("Workspace Type:" .. workspace_type .. "", vim.log.levels.INFO)
     local maps = opts.mappings
     if maps then
-      -- Project Tasks mappings
       if workspace_type == "c/c++" then
         maps.n["<Leader>ns"] = { "<Cmd>ClangdSwitchSourceHeader<CR>", desc = "Switch between source and header" }
-
         maps.n["<Leader>c"] = { "", desc = "Cmake tasks" }
         maps.n["<Leader>cs"] = { "", desc = "Select Target" }
         maps.n["<Leader>cr"] = { "<Cmd>CMakeRun<CR>", desc = "Run" }

@@ -12,17 +12,6 @@ return {
     end,
   },
   {
-    "jay-babu/mason-null-ls.nvim",
-    optional = true,
-    event = { "BufReadPre", "BufNewFile" },
-    opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(
-        opts.ensure_installed,
-        { "clang-format", "clazy-standalone", "cmake-format", "cmake-lint" }
-      )
-    end,
-  },
-  {
     "AstroNvim/astrolsp",
     ft = { "c", "cpp", "cmake" },
     optional = true,
@@ -79,6 +68,15 @@ return {
     end,
   },
   {
+    "jay-babu/mason-null-ls.nvim",
+    optional = true,
+    event = { "BufReadPre", "BufNewFile" },
+    opts = function(_, opts)
+      opts.ensure_installed =
+        require("astrocore").list_insert_unique(opts.ensure_installed, { "clang-format", "cmake-format", "cmake-lint" })
+    end,
+  },
+  {
     "nvimtools/none-ls.nvim",
     opts = function(_, opts)
       opts.debug = true
@@ -114,6 +112,7 @@ return {
         null_ls.builtins.formatting.clang_format.with {
           extra_args = clang_format_args,
         },
+        -- NOTE: clazy-standalone need be installed manually
         null_ls.builtins.diagnostics.clazy.with {
           extra_args = clazy_args,
         },
