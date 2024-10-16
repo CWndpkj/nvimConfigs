@@ -125,15 +125,17 @@ protobuf:
 mercurial:
 `yay -S mercurial`
 
+```
 pip install notebook nbclassic jupyter-console
 pip install git+https://github.com/will8211/unimatrix.git
 npm install -g neovim
 pip install pynvim
 pip install terminaltexteffects
+```
 
-brew tap daipeihust/tap
-im-select:for windows or Darwin
-Use fcitx framework on linux
+> brew tap daipeihust/tap
+> im-select:for windows or Darwin
+> Use fcitx framework on linux
 
 neovide:
 `yay -S neovide`
@@ -273,7 +275,7 @@ brew install lazydocker
 
 | Action                      | Mappings              | Mode |
 | --------------------------- | --------------------- | ---- |
-| Leader key                  | <kdb>Space</kdb>      | n    |
+| Leader key                  | <kbd>Space</kbd>      | n    |
 | Resize up                   | <kbd>Ctrl+Up</kbd>    | n    |
 | Resize Down                 | <kbd>Ctrl+Down</kbd>  | n    |
 | Resize Left                 | <kbd>Ctrl+Left</kbd>  | n    |
@@ -295,10 +297,10 @@ brew install lazydocker
 
 Copilot Mappings
 
-| Action                   | Mappings     | Mode |
-| ------------------------ | ------------ | ---- |
-| Open chat panel          | `<Leader>nc` | n    |
-| Accept inline suggestion | `<C-.>`      | n    |
+| Action                   | Mappings              | Mode |
+| ------------------------ | --------------------- | ---- |
+| Open chat panel          | <kbd>Leader+n+c</kbd> | n    |
+| Accept inline suggestion | <kbd>Ctrl+.</kbd>     | n    |
 
 ## NOTE
 

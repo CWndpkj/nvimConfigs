@@ -6,13 +6,19 @@ return {
       expandtab = true,
     },
     languages = {
-      go = {
-        tabwidth = 4,
-        expandtab = false,
+      {
+        filetypes = { "c", "cpp,", "python" },
+        config = {
+          tabwidth = 4,
+          expandtab = true,
+        },
       },
-      python = {
-        tabwidth = 4,
-        expandtab = true,
+      {
+        filetypes = { "go", "makefile" },
+        config = {
+          tabwidth = 4,
+          expandtab = false,
+        },
       },
       {
         filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact", "json", "yaml" },

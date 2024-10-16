@@ -78,6 +78,7 @@ return {
   },
   {
     "nvimtools/none-ls.nvim",
+    ft = { "c", "cpp", "cmake" },
     opts = function(_, opts)
       opts.debug = true
       local null_ls = require "null-ls"
@@ -94,7 +95,6 @@ return {
       path = require("utils").detect_file_in_paths(".clazy.yaml", { user_config, global_config })
       utils.list_insert_unique(clazy_args, { "-config=" .. path })
       path = require("utils").detect_file_in_paths(".cmake-format.py", { user_config, global_config })
-      print(path)
       utils.list_insert_unique(cmake_format_args, { "-c", path })
       -- HACK: Why cmake_format need '-l error' to work?',and it must be added
       -- after '-c' option,otherwise it will not work

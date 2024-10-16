@@ -55,6 +55,29 @@ return {
       },
     },
   },
+
+  {
+    "nvimtools/none-ls.nvim",
+    dependencies = {
+      "nvimtools/none-ls-extras.nvim",
+    },
+    opts = function(_, opts)
+      opts.debug = true
+      local global_config = vim.fn.stdpath "config" .. "/dotfiles"
+      local user_config = vim.fn.getcwd()
+      local rustfmt_args = {}
+
+      local path = require("utils").detect_file_in_paths("rustfmt.toml", { user_config, global_config })
+      -- Since we know that the file exists, we can safely use it without checking
+      utils.list_insert_unique(rustfmt_args, { "--config-path", path })
+      opts.sources = {
+        require("none-ls.formatting.rustfmt").with {
+          extra_args = rustfmt_args,
+        }, -- requires none-ls-extras.nvim
+      }
+    end,
+  },
+
   {
     "nvim-treesitter/nvim-treesitter",
     opts = function(_, opts)

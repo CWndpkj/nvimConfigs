@@ -43,10 +43,12 @@ return {
         ignore_filetypes = {},
       }, -- disable formatting capabilities for specific language servers
       disabled = {
-      	-- TODO: After clangd supports specify formatting options, remove it from this list
+        -- TODO: After clangd supports specify formatting options, remove it from this list
         "clangd",
-        -- INFO: Don't use neocmake for formatting, we use cmake_format with flexible options
+        -- INFO: Don't use lsp for formatting, but use null-ls with flexible
+        -- configurations
         "neocmake",
+        "rust-analyzer",
       },
       -- default format timeout
       timeout_ms = 20000,
