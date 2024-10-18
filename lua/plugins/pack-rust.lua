@@ -57,7 +57,9 @@ return {
   },
 
   {
-    "nvimtools/none-ls.nvim",
+    "CWndpkj/none-ls.nvim",
+    optional = true,
+    ft = { "rust" },
     dependencies = {
       "nvimtools/none-ls-extras.nvim",
     },
@@ -70,11 +72,13 @@ return {
       local path = require("utils").detect_file_in_paths("rustfmt.toml", { user_config, global_config })
       -- Since we know that the file exists, we can safely use it without checking
       utils.list_insert_unique(rustfmt_args, { "--config-path", path })
-      opts.sources = {
+
+      if not opts.sources then opts.sources = {} end
+      opts.sources = vim.list_extend(opts.sources, {
         require("none-ls.formatting.rustfmt").with {
           extra_args = rustfmt_args,
         }, -- requires none-ls-extras.nvim
-      }
+      })
     end,
   },
 

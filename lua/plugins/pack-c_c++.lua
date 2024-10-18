@@ -77,7 +77,8 @@ return {
     end,
   },
   {
-    "nvimtools/none-ls.nvim",
+    "CWndpkj/none-ls.nvim",
+    optional = true,
     ft = { "c", "cpp", "cmake" },
     opts = function(_, opts)
       opts.debug = true
@@ -93,13 +94,15 @@ return {
       -- Since we know that the file exists, we can safely use it without checking
       utils.list_insert_unique(clang_format_args, { "-style=file:" .. path })
       path = require("utils").detect_file_in_paths(".clazy.yaml", { user_config, global_config })
-      utils.list_insert_unique(clazy_args, { "-config=" .. path })
+      local checks = io.popen("cat /home/pkj/.config/nvim/dotfiles/.clazy.yaml | tr -d ' ' | tr '\n' ','"):read "*a"
+      checks = checks:gsub("%s+", "") -- Remove any remaining whitespace
+      utils.list_insert_unique(clazy_args, { "-checks=" .. checks })
       path = require("utils").detect_file_in_paths(".cmake-format.py", { user_config, global_config })
       utils.list_insert_unique(cmake_format_args, { "-c", path })
       -- HACK: Why cmake_format need '-l error' to work?',and it must be added
       -- after '-c' option,otherwise it will not work
       utils.list_insert_unique(cmake_format_args, { "-l", "error" })
-      path = require("utils").detect_file_in_paths(".cmake-lint.yaml", { user_config, global_config })
+      path = require("utils").detect_file_in_paths(".cmakelintrc", { user_config, global_config })
       utils.list_insert_unique(cmake_lint_args, { "--config=" .. path })
 
       if require("utils").detect_workspace_type() == "c/c++" then
@@ -108,7 +111,8 @@ return {
         if path then utils.list_insert_unique(clazy_args, { "-p", path }) end
       end
 
-      opts.sources = {
+      if not opts.sources then opts.sources = {} end
+      opts.sources = vim.list_extend(opts.sources, {
         null_ls.builtins.formatting.clang_format.with {
           extra_args = clang_format_args,
         },
@@ -122,7 +126,7 @@ return {
         null_ls.builtins.diagnostics.cmake_lint.with {
           extra_args = cmake_lint_args,
         },
-      }
+      })
     end,
   },
   {

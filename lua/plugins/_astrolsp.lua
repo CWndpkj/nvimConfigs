@@ -29,7 +29,6 @@ return {
       -- Configuration table of features provided by AstroLSP
       autoformat = true, -- enable or disable auto formatting on start
       inlay_hints = true, -- nvim >= 0.10
-      signature_help = true,
     },
     -- Configuration options for controlling formatting with language servers
     formatting = {

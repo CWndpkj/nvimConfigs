@@ -11,9 +11,12 @@ local function mapping(is_cmdline)
   return {
     ["<CR>"] = cmp.config.disable,
     -- ctrl + e close cmp window
-    -- <shift-space> for navigating snippets
-    ["<S-Space>"] = cmp.mapping(function()
+    -- <C-n> and <C-p> for navigating snippets
+    ["<C-N>"] = cmp.mapping(function()
       if luasnip.jumpable(1) then luasnip.jump(1) end
+    end, { "i", "c" }),
+    ["<C-P>"] = cmp.mapping(function()
+      if luasnip.jumpable(-1) then luasnip.jump(-1) end
     end, { "i", "c" }),
     ["<C-K>"] = cmp.mapping(function() cmp.select_prev_item { behavior = cmp.SelectBehavior.Select } end, { "i", "c" }),
     ["<C-J>"] = cmp.mapping(function()
@@ -38,6 +41,7 @@ local function mapping(is_cmdline)
         end
       end
     end, { "i", "c" }),
+    ["<S-Tab>"] = cmp.config.disable,
   }
 end
 

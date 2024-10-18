@@ -1,3 +1,4 @@
+
 # ----------------------------------
 # Options affecting listfile parsing
 # ----------------------------------
@@ -25,7 +26,7 @@ with section("format"):
   disable = False
 
   # How wide to allow formatted cmake files
-  line_width = 120
+  line_width = 100
 
   # How many spaces to tab for indent
   tab_size = 2
@@ -45,7 +46,7 @@ with section("format"):
 
   # If an argument group contains more than this many sub-groups (parg or kwarg
   # groups) then force it to a vertical layout.
-  max_subgroups_hwrap = 4
+  max_subgroups_hwrap = 2
 
   # If a positional argument group contains more than this many arguments, then
   # force it to a vertical layout.
@@ -73,7 +74,7 @@ with section("format"):
 
   # If the statement spelling length (including space and parenthesis) is
   # smaller than this amount, then force reject nested layouts.
-  min_prefix_chars = 2
+  min_prefix_chars = 4
 
   # If the statement spelling length (including space and parenthesis) is larger
   # than the tab width by more than this amount, then force reject un-nested
@@ -91,7 +92,7 @@ with section("format"):
   command_case = 'canonical'
 
   # Format keywords consistently as 'lower' or 'upper' case
-  keyword_case = 'upper'
+  keyword_case = 'unchanged'
 
   # A list of command names which should always be wrapped
   always_wrap = []
@@ -156,7 +157,7 @@ with section("markup"):
   canonicalize_hashrulers = True
 
   # enable comment markup parsing and reflow
-  enable_markup = False
+  enable_markup = True
 
 # ----------------------------
 # Options affecting the linter
@@ -238,4 +239,3 @@ with section("misc"):
   # A dictionary containing any per-command configuration overrides. Currently
   # only `command_case` is supported.
   per_command = {}
-
