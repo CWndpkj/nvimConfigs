@@ -413,6 +413,15 @@ function M.get_os_name()
   end
 end
 
+function M.get_global_npm_path()
+  local os_name = M.get_os_name()
+  if os_name == "windows" then
+    return vim.fn.system "cmd.exe /c npm root -g"
+  else
+    return vim.fn.system "npm root -g"
+  end
+end
+
 -- Check if a file exists in a list of paths,
 -- return the full path if it exists, otherwise return false
 function M.detect_file_in_paths(file_name, path_list)
