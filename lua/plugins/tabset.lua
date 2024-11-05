@@ -7,7 +7,7 @@ return {
     },
     languages = {
       {
-        filetypes = { "c", "cpp,", "python" },
+        filetypes = { "c", "cpp", "python","rust" },
         config = {
           tabwidth = 4,
           expandtab = true,
