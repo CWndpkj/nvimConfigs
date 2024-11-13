@@ -24,3 +24,7 @@
  对其的自动配置和启动,或者是因为python虚拟环境的问题?
  解决方案:卸载手动安装的cmake_format包,通常是通过`pip install cmakelang`安装的,
  通过执行`pip uninstall cmakelang` 对其进行卸载
+
+# 修复打开部分文件导致clangd LSP异常退出
+
+# 修复c/cpp工程cmake添加新的依赖更新compile_commands.json后,clangd LSP功能异常的问题

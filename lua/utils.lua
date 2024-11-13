@@ -422,12 +422,15 @@ function M.get_global_npm_path()
   end
 end
 
--- Check if a file exists in a list of paths,
--- return the full path if it exists, otherwise return false
-function M.detect_file_in_paths(file_name, path_list)
-  for _, path in ipairs(path_list) do
-    local full_path = path .. "/" .. file_name
-    if M.file_exists(full_path) then return full_path end
+-- Check if a file in file_list exists in a list of paths,
+-- return the full path if this file exists in specific path
+-- if no file exists in any paths, return false
+function M.detect_files_in_paths(file_list, path_list)
+  for _, file_name in pairs(file_list) do
+    for _, path in pairs(path_list) do
+      local full_path = path .. "/" .. file_name
+      if M.file_exists(full_path) then return full_path end
+    end
   end
   return false
 end

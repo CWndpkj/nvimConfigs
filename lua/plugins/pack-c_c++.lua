@@ -40,8 +40,10 @@ return {
       if require("utils").detect_workspace_type() == "c/c++" then
         local cwd = vim.fn.getcwd()
         -- TODO: Add more possible paths to search for compile_commands.json
-        local compile_commands =
-          require("utils").detect_file_in_paths("compile_commands.json", { cwd .. "/build", cwd })
+        local compile_commands = require("utils").detect_files_in_paths(
+          { "compile_commands.json" },
+          { cwd .. "/build", cwd }
+        )
         if compile_commands then
           utils.list_insert_unique(extra_args, { "--compile-commands-dir", compile_commands })
         end
@@ -90,24 +92,30 @@ return {
       local cmake_format_args = {}
       local cmake_lint_args = {}
 
-      local path = require("utils").detect_file_in_paths(".clang-format", { user_config, global_config })
+      local path = require("utils").detect_files_in_paths({ ".clang-format" }, { user_config, global_config })
       -- Since we know that the file exists, we can safely use it without checking
       utils.list_insert_unique(clang_format_args, { "-style=file:" .. path })
-      path = require("utils").detect_file_in_paths(".clazy.yaml", { user_config, global_config })
+      path = require("utils").detect_files_in_paths({ ".clazy.yaml" }, { user_config, global_config })
       local checks = io.popen("cat /home/pkj/.config/nvim/dotfiles/.clazy.yaml | tr -d ' ' | tr '\n' ','"):read "*a"
       checks = checks:gsub("%s+", "") -- Remove any remaining whitespace
       utils.list_insert_unique(clazy_args, { "-checks=" .. checks })
-      path = require("utils").detect_file_in_paths(".cmake-format.py", { user_config, global_config })
+      path = require("utils").detect_files_in_paths(
+        { ".cmake-format.yaml", "cmake-format.py" },
+        { user_config, global_config }
+      )
       utils.list_insert_unique(cmake_format_args, { "-c", path })
       -- HACK: Why cmake_format need '-l error' to work?',and it must be added
       -- after '-c' option,otherwise it will not work
       utils.list_insert_unique(cmake_format_args, { "-l", "error" })
-      path = require("utils").detect_file_in_paths(".cmakelintrc", { user_config, global_config })
+      path = require("utils").detect_files_in_paths({ ".cmakelintrc" }, { user_config, global_config })
       utils.list_insert_unique(cmake_lint_args, { "--config=" .. path })
 
       if require("utils").detect_workspace_type() == "c/c++" then
         -- TODO: Add more possible paths to search for compile_commands.json
-        path = require("utils").detect_file_in_paths("compile_commands.json", { user_config .. "/build", user_config })
+        path = require("utils").detect_files_in_paths(
+          { "compile_commands.json" },
+          { user_config .. "/build", user_config }
+        )
         if path then utils.list_insert_unique(clazy_args, { "-p", path }) end
       end
 

@@ -69,7 +69,7 @@ return {
       local user_config = vim.fn.getcwd()
       local rustfmt_args = {}
 
-      local path = require("utils").detect_file_in_paths("rustfmt.toml", { user_config, global_config })
+      local path = require("utils").detect_files_in_paths({ "rustfmt.toml" }, { user_config, global_config })
       -- Since we know that the file exists, we can safely use it without checking
       utils.list_insert_unique(rustfmt_args, { "--config-path", path })
 
