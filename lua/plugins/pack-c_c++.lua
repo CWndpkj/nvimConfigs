@@ -16,25 +16,26 @@ return {
     ft = { "c", "cpp", "cmake" },
     optional = true,
     opts = function(_, opts)
-      local clang_format_config
-      local global_clang_format_config = vim.fn.stdpath "config" .. "/dotfiles/.clang-format"
-      local user_clang_format_config = vim.fn.getcwd() .. "/.clang-format"
-      if require("utils").file_exists(user_clang_format_config) then
-        clang_format_config = user_clang_format_config
-      else
-        clang_format_config = global_clang_format_config
-      end
+      -- local clang_format_config
+      -- local global_clang_format_config = vim.fn.stdpath "config" .. "/dotfiles/.clang-format"
+      -- local user_clang_format_config = vim.fn.getcwd() .. "/.clang-format"
+      -- if require("utils").file_exists(user_clang_format_config) then
+      --   clang_format_config = user_clang_format_config
+      -- else
+      --   clang_format_config = global_clang_format_config
+      -- end
       local extra_args = {
         "--clang-tidy",
         "--background-index",
+        "-j=12",
         "--completion-style=detailed",
         "--header-insertion=never",
-        "--pch-storage=memory",
+        "--pch-storage=disk",
         "--all-scopes-completion",
-        "--pretty",
+        "--header-insertion-decorators"
         -- INFO:Clangd will supports this option soon,bu not yet,currently we use
         -- clang-format
-        "-style=file:" .. clang_format_config,
+        -- "-style=file:" .. clang_format_config,
       }
 
       if require("utils").detect_workspace_type() == "c/c++" then

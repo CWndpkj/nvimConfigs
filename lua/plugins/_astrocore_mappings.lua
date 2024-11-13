@@ -13,8 +13,19 @@ return {
       if workspace_type == "c/c++" then
         maps.n["<Leader>ns"] = { "<Cmd>ClangdSwitchSourceHeader<CR>", desc = "Switch between source and header" }
         maps.n["<Leader>c"] = { "", desc = "Cmake tasks" }
-        maps.n["<Leader>cs"] = { "", desc = "Select Target" }
         maps.n["<Leader>cr"] = { "<Cmd>CMakeRun<CR>", desc = "Run" }
+        maps.n["<Leader>cs"] = { "", desc = "Target settings" }
+        maps.n["<Leader>csa"] = {
+          function()
+            local inputs = require "neo-tree.ui.inputs"
+            local msg = "Input args split by space:"
+            inputs.input(msg, "", function(args)
+              if args == "" then return end
+              vim.cmd("CMakeLaunchArgs " .. args)
+            end)
+          end,
+          desc = "Set Launch Args",
+        }
         maps.n["<Leader>csr"] = { "<Cmd>CMakeSelectLaunchTarget<CR>", desc = "Select Launch Target" }
         maps.n["<Leader>cg"] = {
           "<Cmd>CMakeGenerate<CR>",
