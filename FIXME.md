@@ -28,3 +28,6 @@
 # 修复打开部分文件导致clangd LSP异常退出
 
 # 修复c/cpp工程cmake添加新的依赖更新compile_commands.json后,clangd LSP功能异常的问题
+
+# 修复c/c++项目弹出signature help时,光标移动到signature上的问题
+> astronvim 与 noice.nvim插件的signature冲突导致,关闭astronvim的signature help,问题解决
