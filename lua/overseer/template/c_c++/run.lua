@@ -1,31 +1,38 @@
 local overseer = require "overseer"
 local cmake = require "cmake-tools"
-local env_file = cmake.get_build_directory() .. "/conan/build/" .. cmake.get_build_type() .. "/generators/conanrun.sh"
-print(env_file)
 
 return {
   -- Required fields
-  name = "conanRun",
+  name = "run",
   builder = function()
+    local env_file = cmake.get_build_directory()
+      .. "/conan/build/"
+      .. cmake.get_build_type()
+      .. "/generators/conanrun.sh"
+    local useConan = require("utils").detect_files_in_paths({ "conanfile.py", "conanfile.txt" }, { vim.fn.getcwd() })
+
     local target = cmake.get_launch_target_path()
     local launch_args = cmake.get_launch_args()
+    local args = { "-c", target .. " " .. table.concat(launch_args, " ") }
+    if useConan then
+      args = { "-c", "source " .. env_file .. " && " .. target .. " " .. table.concat(launch_args, " ") }
+    end
     --- @type overseer.TaskDefinition
     return {
       -- cmd is the only required field
       cmd = { "bash" },
       -- additional arguments for the cmd
-      args = { "-c", "source " .. env_file .. " && " .. target .. " " .. table.concat(launch_args, " ") },
+      args = args,
       -- the name of the task (defaults to the cmd of the task)
-      name = "conanRun",
+      name = "run",
       -- the list of components or component aliases to add to the task
       components = {
         "default",
       },
-      -- arbitrary table of data for your own personal use
     }
   end,
   -- Optional fields
-  desc = "Run target",
+  desc = "Run selected target",
   -- Tags can be used in overseer.run_template()
   tags = { overseer.TAG.RUN },
   params = {

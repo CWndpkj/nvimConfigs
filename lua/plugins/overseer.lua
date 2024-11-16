@@ -36,7 +36,7 @@ return {
       templates = {
         "builtin",
         -- "user.cmake_debug",
-        "c_c++.conanRun",
+        "c_c++.run",
       },
       -- When true, tries to detect a green color from your colorscheme to use for success highlight
       auto_detect_success_color = true,
