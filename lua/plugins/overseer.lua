@@ -7,7 +7,7 @@ return {
       strategy = {
         "toggleterm",
         -- load your default shell before starting the task
-        use_shell = false,
+        use_shell = true,
         -- overwrite the default toggleterm "direction" parameter
         direction = "horizontal",
         -- overwrite the default toggleterm "highlights" parameter
@@ -36,6 +36,7 @@ return {
       templates = {
         "builtin",
         -- "user.cmake_debug",
+        "c_c++.conanRun",
       },
       -- When true, tries to detect a green color from your colorscheme to use for success highlight
       auto_detect_success_color = true,

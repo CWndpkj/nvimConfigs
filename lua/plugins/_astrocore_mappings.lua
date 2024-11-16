@@ -13,7 +13,13 @@ return {
       if workspace_type == "c/c++" then
         maps.n["<Leader>ns"] = { "<Cmd>ClangdSwitchSourceHeader<CR>", desc = "Switch between source and header" }
         maps.n["<Leader>c"] = { "", desc = "Cmake tasks" }
-        maps.n["<Leader>cr"] = { "<Cmd>CMakeRun<CR>", desc = "Run" }
+        maps.n["<Leader>cr"] = {
+          function()
+            overseer = require "overseer"
+            overseer.run_template { tags = { overseer.TAG.RUN } }
+          end,
+          desc = "Run",
+        }
         maps.n["<Leader>cs"] = { "", desc = "Target settings" }
         maps.n["<Leader>csa"] = {
           function()
@@ -36,7 +42,7 @@ return {
         maps.n["<Leader>ct"] = { "<Cmd>CMakeRunTest<CR>", desc = "Test" }
         maps.n["<Leader>cd"] = { "<Cmd>CMakeDebug<CR>", desc = "Debug" }
         maps.n["<LEader>cc"] = { "<Cmd>CMakeClean<CR>", desc = "Clean" }
-        maps.n["<F5>"] = { "<cmd>CMakeDebug<cr>", desc = "Start Debug" }
+        maps.n["<F5>"] = { "<cmd>CMakeDebug<CR>", desc = "Start Debug" }
       elseif workspace_type == "rust" or workspace_type == "python" or workspace_type == "frontend" then
         if workspace_type == "rust" then
           maps.n["<Leader>c"] = { "", desc = "Cargo tasks" }
