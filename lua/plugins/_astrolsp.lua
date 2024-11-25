@@ -49,7 +49,6 @@ return {
         -- INFO: Don't use lsp for formatting, but use null-ls with flexible
         -- configurations
         "neocmake",
-        "rust-analyzer",
       },
       -- default format timeout
       timeout_ms = 20000,

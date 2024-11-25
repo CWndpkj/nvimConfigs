@@ -56,31 +56,31 @@ return {
     },
   },
 
-  {
-    "CWndpkj/none-ls.nvim",
-    optional = true,
-    ft = { "rust" },
-    dependencies = {
-      "nvimtools/none-ls-extras.nvim",
-    },
-    opts = function(_, opts)
-      opts.debug = true
-      local global_config = vim.fn.stdpath "config" .. "/dotfiles"
-      local user_config = vim.fn.getcwd()
-      local rustfmt_args = {}
-
-      local path = require("utils").detect_files_in_paths({ "rustfmt.toml" }, { user_config, global_config })
-      -- Since we know that the file exists, we can safely use it without checking
-      utils.list_insert_unique(rustfmt_args, { "--config-path", path })
-
-      if not opts.sources then opts.sources = {} end
-      opts.sources = vim.list_extend(opts.sources, {
-        require("none-ls.formatting.rustfmt").with {
-          extra_args = rustfmt_args,
-        }, -- requires none-ls-extras.nvim
-      })
-    end,
-  },
+  -- {
+  --   "CWndpkj/none-ls.nvim",
+  --   optional = true,
+  --   ft = { "rust" },
+  --   dependencies = {
+  --     "nvimtools/none-ls-extras.nvim",
+  --   },
+  --   opts = function(_, opts)
+  --     opts.debug = true
+  --     local global_config = vim.fn.stdpath "config" .. "/dotfiles"
+  --     local user_config = vim.fn.getcwd()
+  --     local rustfmt_args = {}
+  --
+  --     local path = require("utils").detect_files_in_paths({ "rustfmt.toml" }, { user_config, global_config })
+  --     -- Since we know that the file exists, we can safely use it without checking
+  --     utils.list_insert_unique(rustfmt_args, { "--config-path", path })
+  --     print(vim.inspect(rustfmt_args))
+  --     if not opts.sources then opts.sources = {} end
+  --     opts.sources = vim.list_extend(opts.sources, {
+  --       require("none-ls.formatting.rustfmt").with {
+  --         extra_args = rustfmt_args,
+  --       }, -- requires none-ls-extras.nvim
+  --     })
+  --   end,
+  -- },
 
   {
     "nvim-treesitter/nvim-treesitter",
@@ -101,16 +101,46 @@ return {
   {
     "mrcjkb/rustaceanvim",
     version = "^5",
+    lazy = false,
     ft = "rust",
     opts = function()
       local astrolsp_avail, astrolsp = pcall(require, "astrolsp")
       local astrolsp_opts = (astrolsp_avail and astrolsp.lsp_opts "rust_analyzer") or {}
       local server = {
         ---@type table | (fun(project_root:string|nil, default_settings: table|nil):table) -- The rust-analyzer settings or a function that creates them.
+        ---
         settings = function(project_root, default_settings)
+          -- default_settings = require("astrocore").extend_tbl(user_default_settings,default_settings)
           local astrolsp_settings = astrolsp_opts.settings or {}
-
-          local merge_table = require("astrocore").extend_tbl(default_settings or {}, astrolsp_settings)
+          local user_default_settings = {
+            -- rust-analyzer language server configuration
+            ["rust-analyzer"] = {
+              cargo = {
+                allFeatures = true,
+                loadOutDirsFromCheck = true,
+                buildScripts = {
+                  enable = true,
+                },
+              },
+              rustfmt = {
+                extraArgs = { "--config-path", vim.fn.stdpath "config" .. "/dotfiles/rustfmt.toml" },
+              },
+              -- Add clippy lints for Rust.
+              checkOnSave = {
+                command = "clippy",
+              },
+              procMacro = {
+                enable = true,
+                ignored = {
+                  ["async-trait"] = { "async_trait" },
+                  ["napi-derive"] = { "napi" },
+                  ["async-recursion"] = { "async_recursion" },
+                },
+              },
+            },
+          }
+          local merged_default_settings = require("astrocore").extend_tbl(user_default_settings, default_settings)
+          local merge_table = require("astrocore").extend_tbl(merged_default_settings or {}, astrolsp_settings)
           local ra = require "rustaceanvim.config.server"
           -- load_rust_analyzer_settings merges any found settings with the passed in default settings table and then returns that table
           return ra.load_rust_analyzer_settings(project_root, {
@@ -120,6 +150,7 @@ return {
         end,
       }
       local final_server = require("astrocore").extend_tbl(astrolsp_opts, server)
+
       ---@type rustaceanvim.Opts
       return {
         ---@type rustaceanvim.tools.Opts
@@ -128,28 +159,6 @@ return {
           test_executor = "toggleterm",
         },
         server = final_server,
-        default_settings = {
-          -- rust-analyzer language server configuration
-          ["rust-analyzer"] = {
-            cargo = {
-              allFeatures = true,
-              loadOutDirsFromCheck = true,
-              buildScripts = {
-                enable = true,
-              },
-            },
-            -- Add clippy lints for Rust.
-            checkOnSave = true,
-            procMacro = {
-              enable = true,
-              ignored = {
-                ["async-trait"] = { "async_trait" },
-                ["napi-derive"] = { "napi" },
-                ["async-recursion"] = { "async_recursion" },
-              },
-            },
-          },
-        },
       }
     end,
     config = function(_, opts)
@@ -197,7 +206,7 @@ return {
     },
   },
   {
-    "nvim-neotest/neotest",
+    "nvim-nemtest/neotest",
     optional = true,
     opts = function(_, opts)
       if not opts.adapters then opts.adapters = {} end
