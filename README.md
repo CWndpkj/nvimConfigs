@@ -90,7 +90,7 @@ now,this config supports development in `TypeScript`,`Python`,`Go`,`Rust` and `m
 ### Recommend install
 
 fzf:
-`yay -S fxf`
+`yay -S fzf`
 
 fd:
 `yay -S fd`
@@ -99,7 +99,7 @@ luarocks:
 `yay -S luarocks`
 
 magick:
-`luarocks --lua-version 5.1 install magick`
+`sudo luarocks --lua-version 5.1 install magick`
 
 clazy-standalone:
 `yay -S clazy`
