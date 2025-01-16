@@ -85,9 +85,16 @@ now,this config supports development in `TypeScript`,`Python`,`Go`,`Rust` and `m
 
 ### The system should supports commands
 
-`npm`,`rustc`,`go`,`tmux`
+`npm`,`rustc`,`go`
+
+`yay -S rustup`
+`rustup default stable`
+`yay -S go`
 
 ### Recommend install
+
+go toolchain:
+`yay -S go`
 
 fzf:
 `yay -S fzf`
@@ -124,6 +131,9 @@ protobuf:
 
 mercurial:
 `yay -S mercurial`
+
+xxd:
+`yay -S xxd`
 
 ```
 pip install notebook nbclassic jupyter-console
@@ -169,7 +179,7 @@ You can also just clone this repository directly if you do not want to track you
 ### Clone the repository
 
 ```shell
-git clone https://github.com/chaozwn/astronvim_with_coc_or_mason ~/.config/nvim
+git clone https://github.com/CWndpkj/nvimConfigs.git ~/.config/nvim
 ```
 
 ### Start Neovim
